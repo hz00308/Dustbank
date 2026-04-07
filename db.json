@@ -1,0 +1,61 @@
+{
+  "parents": [
+    {
+      "id": "34ee7fwh",
+      "nickname": "엄마",
+      "iconId": 1
+    }
+  ],
+  "children": [
+    {
+      "id": "tyuiopk",
+      "parentId": "34ee7fwh",
+      "nickname": "길동이",
+      "iconId": 2
+    }
+  ],
+  "transactions": [
+    {
+      "id": "tr-20260407-001",
+      "childId": "tyuiopk",
+      "parentId": "34ee7fwh",
+      "type": "E",
+      "category1": "W",
+      "category2": "간식",
+      "category3": null,
+      "amount": 5000,
+      "balance": 15000,
+      "date": "2026-04-07T14:30:00.000Z",
+      "createdAt": "2026-04-07T14:30:00.000Z",
+      "memo": "편의점에서 초코우유랑 빵 사먹음"
+    },
+    {
+      "id": "tr-20260407-002",
+      "childId": "tyuiopk",
+      "parentId": "34ee7fwh",
+      "type": "I",
+      "category1": null,
+      "category2": null,
+      "category3": "용돈",
+      "amount": 10000,
+      "balance": 25000,
+      "date": "2026-04-07T15:00:00.000Z",
+      "createdAt": "2026-04-07T15:00:00.000Z",
+      "memo": "이번 주 주간 용돈 입금!"
+    },
+    {
+      "id": "tr-20260407-003",
+      "childId": "tyuiopk",
+      "parentId": "34ee7fwh",
+      "type": "E",
+      "category1": "N",
+      "category2": "학용품",
+      "category3": null,
+      "amount": 3000,
+      "balance": 22000,
+      "date": "2026-04-07T16:20:00.000Z",
+      "createdAt": "2026-04-07T16:20:00.000Z",
+      "memo": "수학 시간에 쓸 연습장 구매"
+    }
+  ]
+}
