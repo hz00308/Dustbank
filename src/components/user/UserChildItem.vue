@@ -5,7 +5,7 @@
       style="text-decoration: none"
     >
       <div class="selectedImg">
-        <img src="@/assets/images/parents.png" alt="profile" />
+        <img src="@/assets/images/bear_boy.png" alt="profile" />
       </div>
       <p class="nickname">{{ child.nickname }}</p>
       <p class="role">Children</p>
@@ -49,7 +49,7 @@ li {
 .selectedImg > img {
   width: 152px;
   height: 152px;
-  background-color: rgb(203, 236, 255);
+  background-color: rgb(255, 218, 238);
   border-radius: 50%;
   margin: 0;
 }
