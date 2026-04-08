@@ -1,7 +1,12 @@
 <template>
   <div id="child-list">
-    <ChildItem />
-    <ChildItem />
+    <ChildItem
+      v-for="child in childListStore.states.childList"
+      :key="child.id"
+      :nickname="child.nickname"
+      :balance="child.balance"
+      :iconId="child.iconId"
+    />
     <div id="add-child-card">
       <div id="plus">+</div>
       <div id="add-child-text">자녀 추가하기</div>
@@ -14,6 +19,11 @@
 
 <script setup>
 import ChildItem from './ChildItem.vue';
+import { useChildListStore } from '@/stores/child';
+import { computed } from 'vue';
+
+const childListStore = useChildListStore();
+childListStore.fetchChildList();
 </script>
 
 <style scoped>

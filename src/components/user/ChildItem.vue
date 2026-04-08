@@ -1,9 +1,10 @@
 <template>
   <div id="child-item">
-    <img src="C:\fullstack\skeleton\Dustbank\public\logo.svg" alt="" />
-    <div id="name">홍길동</div>
-    <div id="balance">100000 원</div>
+    <img :src="getIconPath(iconId)" />
+    <div id="name">{{ nickname }}</div>
+    <div id="balance">{{ balance }} 원</div>
     <div id="btn-group">
+      <!-- 아직 router 수정 중이라 to 속성 없음 -->
       <router-link class="rlink"><div class="btn1">용돈 주기</div></router-link>
       <div id="btn-line">
         <router-link class="rlink"
@@ -17,7 +18,13 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+defineProps(['nickname', 'balance', 'iconId']);
+
+const getIconPath = (iconId) => {
+  return new URL(`../../assets/icons/icon${iconId}.png`, import.meta.url).href;
+};
+</script>
 
 <style scoped>
 #child-item {
