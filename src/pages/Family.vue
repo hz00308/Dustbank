@@ -1,6 +1,6 @@
 <template>
   <div class="container1">
-    <Header />
+    <Header class="header" />
     <!-- <div class="header"></div> -->
     <div class="main">
       <div class="titleGroup">
@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-    <Footer />
+    <Footer class="footer" />
     <!-- <div class="footer"></div> -->
   </div>
 </template>
@@ -48,7 +48,6 @@ import UserList from '@/components/user/UserList.vue';
   padding: 32px;
 }
 
-/* css */
 .main {
   padding: 0 100px;
   background-color: #f7f9fb;
