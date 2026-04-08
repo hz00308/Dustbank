@@ -1,7 +1,37 @@
 <template>
-  <div></div>
+  <footer class="footer">
+    <div class="footer-bottom" :class="align">
+      {{ text }}
+    </div>
+  </footer>
 </template>
 
-<script setup></script>
+<script setup>
+defineProps({
+  text: {
+    type: String,
+    default: '© 2024 Editorial Financial Steward. All rights reserved.',
+  },
+  align: {
+    type: String,
+    default: 'center',
+  },
+});
+</script>
 
-<style lang="scss" scoped></style>
+<style scoped>
+.footer {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+  background: #f0f4f7;
+  padding: 40px 0;
+}
+
+.footer-bottom {
+  max-width: 1450px;
+  margin: 0 auto;
+  font-size: 12px;
+  color: #9ca3af;
+}
+</style>
