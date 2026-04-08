@@ -1,5 +1,6 @@
 <template>
   <div id="dashboard">
+    <ParentNav />
     <div>
       <h1>
         안녕하세요,
@@ -10,10 +11,13 @@
 
     <ChildList />
   </div>
+  <Footer />
 </template>
 
 <script setup>
 import ChildList from '@/components/user/ChildList.vue';
+import ParentNav from '@/components/common/ParentNav.vue';
+import Footer from '@/components/common/Footer.vue';
 import { useChildListStore } from '@/stores/child';
 
 const childListStore = useChildListStore();
@@ -22,7 +26,7 @@ childListStore.fetchParentNickname();
 
 <style scoped>
 #dashboard {
-  background-color: #eaeff2;
+  background-color: #f7f9fb;
   padding: 4em;
   display: flex;
   flex-direction: column;
