@@ -10,7 +10,7 @@
 defineProps({
   text: {
     type: String,
-    default: '© 2024 Editorial Financial Steward. All rights reserved.',
+    default: "© 2026 KB IT's Your Life 24회차 싹쓰리. All rights reserved.",
   },
   align: {
     type: String,
@@ -24,6 +24,7 @@ defineProps({
   position: fixed;
   bottom: 0px;
   width: 100%;
+  height: 80px;
   background: #f0f4f7;
   padding: 40px 0;
 }
