@@ -1,8 +1,8 @@
 <template>
-  <Header />
-  <!-- <ParentNav />
-  <ChildNav /> -->
-  <Footer />
+  <div>
+    <router-view></router-view>
+  </div>
+</template>
 
   <router-view />
 </template>
