@@ -2,7 +2,7 @@
   <ParentNav />
   <div class="main">
     <div class="contents">
-      <div class="title">
+      <div class="titleGroup">
         <div class="subTitle">
           <img src="@/assets/images/plus2.png" alt="plus" />
           <p>INCOME ENTRY</p>
@@ -14,51 +14,60 @@
           <p>올바른 경제 관념의 시작, 지금 자녀에게 용돈을 보내보세요.</p>
         </div>
       </div>
-
-      <div class="left">
-        <div class="left-top">
-          <p>금액 입력</p>
-          <div class="price">
-            <span class="won">\</span>
-            <input type="number" id="num" placeholder="0" pattern="[0-9]*" />
-          </div>
-          <div class="priceBtn">
-            <div class="btn" @click="addNum(100)"><p>+ 100</p></div>
-            <div class="btn" @click="addNum(1000)"><p>+ 1000</p></div>
-            <div class="btn" @click="addNum(10000)"><p>+ 10,000</p></div>
-            <div class="btn" @click="addNum(100000)"><p>+ 100,000</p></div>
-          </div>
-        </div>
-        <div class="left-bottom">
-          <div class="inputBox">
-            <div class="categoryBox inputGroup">
-              <label for="category">분류</label>
-              <select name="category" id="category" class="category">
-                <option value="allowance">정기용돈</option>
-                <option value="reward">심부름</option>
-                <option value="newYearGift">세뱃돈</option>
-                <option value="other">기타</option>
-              </select>
+      <form action="" class="inputForm">
+        <div class="left">
+          <div class="left-top">
+            <p>금액 입력</p>
+            <div class="price">
+              <span class="won">\</span>
+              <input type="number" id="num" placeholder="0" pattern="[0-9]*" />
             </div>
-            <div class="date inputGroup">
-              <label for="date">날짜</label>
-              <input type="date" id="date" />
+            <div class="priceBtn">
+              <div class="btn" @click="addNum(100)"><p>+ 100</p></div>
+              <div class="btn" @click="addNum(1000)"><p>+ 1000</p></div>
+              <div class="btn" @click="addNum(10000)"><p>+ 10,000</p></div>
+              <div class="btn" @click="addNum(100000)"><p>+ 100,000</p></div>
             </div>
           </div>
-          <div class="memoBox">
-            <label for="memo">메모</label>
-            <input
-              type="text"
-              placeholder="칭찬 한마디를 남겨주세요."
-              id="memo"
-            />
+          <div class="left-bottom">
+            <div class="inputBox">
+              <div class="categoryBox inputGroup">
+                <label for="category">분류</label>
+                <select name="category" id="category" class="category">
+                  <option value="allowance">정기용돈</option>
+                  <option value="reward">심부름</option>
+                  <option value="newYearGift">세뱃돈</option>
+                  <option value="other">기타</option>
+                </select>
+              </div>
+              <div class="date inputGroup">
+                <label for="date">날짜</label>
+                <input type="date" id="date" />
+              </div>
+            </div>
+            <div class="memoBox">
+              <label for="memo">메모</label>
+              <input
+                type="text"
+                placeholder="칭찬 한마디를 남겨주세요."
+                id="memo"
+              />
+            </div>
           </div>
         </div>
-      </div>
-      <div class="right">
-        <div class="right-top"></div>
-        <div class="right-bottom"></div>
-      </div>
+        <div class="right">
+          <div class="right-top">
+            <div class="childInfo">
+              <img src="" class="profile" />
+              <div class="info">
+                <p class="childName">name</p>
+                <p class="currentBalance"></p>
+              </div>
+            </div>
+          </div>
+          <div class="right-bottom"></div>
+        </div>
+      </form>
     </div>
   </div>
 </template>
@@ -76,17 +85,19 @@ const addNum = (num) => {
 </script>
 
 <style scoped>
-.body {
-}
 .main {
   width: 100%;
-  padding: 150px 100px;
   background-color: #f7f9fb;
+  padding-top: 100px;
 }
 .contents {
   width: 1024px;
   margin: 0 auto;
   background-color: gold;
+  padding: 48px 24px;
+}
+.titleGroup {
+  margin-bottom: 24px;
 }
 .subTitle {
   display: flex;
@@ -105,9 +116,14 @@ const addNum = (num) => {
   font-size: 48px;
 }
 
+.inputForm {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
 .left-top {
-  width: 560px;
-  height: 280px;
+  width: 496px;
+  height: 216px;
   background-color: #ffffff;
   border-radius: 32px;
   padding: 32px;
@@ -142,13 +158,20 @@ const addNum = (num) => {
   outline: none;
   background-color: none;
 }
-
+.priceBtn {
+  display: flex;
+  flex-direction: row;
+}
 .btn {
   width: 110px;
   height: 40px;
   border-radius: 50px;
   background-color: #f0f4f7;
   margin-right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 }
 
 .btn > p {
@@ -158,8 +181,8 @@ const addNum = (num) => {
 }
 
 .left-bottom {
-  width: 560px;
-  height: 315px;
+  width: 496px;
+  height: 251px;
   background-color: #f0f4f7;
   padding: 32px;
   border-radius: 32px;
@@ -187,12 +210,15 @@ const addNum = (num) => {
   width: 100%;
   height: 56px;
   border-radius: 30px;
-  padding: 5px 20px;
+  padding: 0 20px;
   outline: none;
+  box-sizing: border-box;
 }
-
+.left-bottom {
+  width: 496px;
+}
 .memoBox {
-  width: 495px;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
@@ -205,10 +231,18 @@ const addNum = (num) => {
 
 .memoBox > input {
   border: none;
-  width: 100%;
+  width: 455px;
   height: 105px;
   border-radius: 30px;
   padding: 5px 20px;
   outline: none;
+}
+
+.right-top {
+  width: 326px;
+  height: 326px;
+  background-color: #ffffff;
+  border-radius: 32px;
+  padding: 32px;
 }
 </style>
