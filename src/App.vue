@@ -4,9 +4,6 @@
   </div>
 </template>
 
-  <router-view />
-</template>
-
 <script setup>
 import Header from './components/common/Header.vue';
 import ParentNav from './components/common/ParentNav.vue';
