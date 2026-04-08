@@ -41,5 +41,6 @@ childListStore.fetchParentNickname();
 }
 h1 {
   margin-top: 68px;
+  font-weight: 600;
 }
 </style>
