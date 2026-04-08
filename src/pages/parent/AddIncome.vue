@@ -1,21 +1,20 @@
 <template>
   <ParentNav />
   <div class="main">
-    <div class="title">
-      <div class="subTitle">
-        <img src="@/assets/images/plus2.png" alt="plus" />
-        <p>INCOME ENTRY</p>
-      </div>
-      <div class="title">
-        <p>용돈 주기</p>
-      </div>
-      <div class="info">
-        <p>
-          자녀의 경제적 성장을 위해<br />학습한 가치를 담아 용돈을 선물하세요.
-        </p>
-      </div>
-    </div>
     <div class="contents">
+      <div class="title">
+        <div class="subTitle">
+          <img src="@/assets/images/plus2.png" alt="plus" />
+          <p>INCOME ENTRY</p>
+        </div>
+        <div class="title">
+          <p>용돈 주기</p>
+        </div>
+        <div class="info">
+          <p>올바른 경제 관념의 시작, 지금 자녀에게 용돈을 보내보세요.</p>
+        </div>
+      </div>
+
       <div class="left">
         <div class="left-top">
           <p>금액 입력</p>
@@ -43,12 +42,16 @@
             </div>
             <div class="date inputGroup">
               <label for="date">날짜</label>
-              <input type="date" />
+              <input type="date" id="date" />
             </div>
           </div>
           <div class="memoBox">
             <label for="memo">메모</label>
-            <input type="text" placeholder="칭찬 한마디를 남겨주세요." />
+            <input
+              type="text"
+              placeholder="칭찬 한마디를 남겨주세요."
+              id="memo"
+            />
           </div>
         </div>
       </div>
@@ -73,9 +76,17 @@ const addNum = (num) => {
 </script>
 
 <style scoped>
+.body {
+}
 .main {
+  width: 100%;
   padding: 150px 100px;
   background-color: #f7f9fb;
+}
+.contents {
+  width: 1024px;
+  margin: 0 auto;
+  background-color: gold;
 }
 .subTitle {
   display: flex;
