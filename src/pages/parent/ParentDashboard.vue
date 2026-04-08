@@ -1,6 +1,6 @@
 <template>
+  <ParentNav />
   <div id="dashboard">
-    <ParentNav />
     <div>
       <h1>
         안녕하세요,
@@ -31,6 +31,7 @@ childListStore.fetchParentNickname();
   display: flex;
   flex-direction: column;
   gap: 50px;
+  height: calc(100vh-148px);
 }
 .blue {
   color: #2456cc;
