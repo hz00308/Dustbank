@@ -1,7 +1,12 @@
 <template>
-  <div></div>
+  <div>
+    <h1>ChildDashboard</h1>
+    <Stats />
+  </div>
 </template>
 
-<script setup></script>
+<script setup>
+import Stats from '@/components/transactions/Stats.vue';
+</script>
 
-<style lang="scss" scoped></style>
+<style scoped></style>
