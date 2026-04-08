@@ -57,22 +57,22 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
-const router = useRouter()
-const parentId = ref('')
+const router = useRouter();
+const parentId = ref('');
 
 function goNext() {
   if (!parentId.value) {
-    alert('학부모 ID를 입력해주세요.')
-    return
+    alert('학부모 ID를 입력해주세요.');
+    return;
   }
 
   router.push({
     name: 'Family',
-    params: { parentId: parentId.value },
-  })
+    params: { id: parentId.value },
+  });
 }
 </script>
 
