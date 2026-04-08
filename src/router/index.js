@@ -16,7 +16,7 @@ const router = createRouter({
   routes: [
     { path: '/', name: 'Home', component: Home },
     { path: '/:id', name: 'Family', component: Family },
-    { path: '/add-child/:parent-id', name: 'AddChild', component: AddChild },
+    { path: '/add-child', name: 'AddChild', component: AddChild },
     {
       path: '/parent',
       name: 'ParentDashboard',

@@ -5,7 +5,7 @@
       style="text-decoration: none"
     >
       <div class="selectedImg">
-        <img src="@/assets/images/parents.png" alt="profile" />
+        <img :src="getIconPath(parent.iconId)" />
       </div>
       <p class="nickname">{{ parent.nickname }}</p>
       <p class="role">Parent</p>
@@ -20,6 +20,10 @@ const userStore = useUserStore();
 defineProps({
   parent: { Type: Object, required: true },
 });
+
+const getIconPath = (iconId) => {
+  return new URL(`../../assets/icons/icon${iconId}.png`, import.meta.url).href;
+};
 </script>
 
 <style scoped>
