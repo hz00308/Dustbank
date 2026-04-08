@@ -5,12 +5,18 @@
     <div id="balance">{{ balance }} 원</div>
     <div id="btn-group">
       <!-- 아직 router 수정 중이라 to 속성 없음 -->
-      <router-link class="rlink"><div class="btn1">용돈 주기</div></router-link>
+      <router-link :to="{ name: 'AddIncome', params: { id } }" class="rlink"
+        ><div class="btn1">용돈 주기</div></router-link
+      >
       <div id="btn-line">
-        <router-link class="rlink"
+        <router-link
+          :to="{ name: 'MyChildStats', params: { id } }"
+          class="rlink"
           ><div class="btn2">통계 보기</div></router-link
         >
-        <router-link class="rlink"
+        <router-link
+          :to="{ name: 'MyChildTransactions', params: { id } }"
+          class="rlink"
           ><div class="btn2">거래 내역</div></router-link
         >
       </div>
@@ -19,7 +25,7 @@
 </template>
 
 <script setup>
-defineProps(['nickname', 'balance', 'iconId']);
+defineProps(['id', 'nickname', 'balance', 'iconId']);
 
 const getIconPath = (iconId) => {
   return new URL(`../../assets/icons/icon${iconId}.png`, import.meta.url).href;

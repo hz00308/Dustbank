@@ -3,17 +3,20 @@
     <ChildItem
       v-for="child in childListStore.states.childList"
       :key="child.id"
+      :id="child.id"
       :nickname="child.nickname"
       :balance="child.balance"
       :iconId="child.iconId"
     />
-    <div id="add-child-card">
-      <div id="plus">+</div>
-      <div id="add-child-text">자녀 추가하기</div>
-      <div id="add-child-desc">
-        새 계정을 추가하여 자녀의 용돈을 관리해 보세요.
+    <router-link :to="{ name: 'AddChild' }" style="text-decoration: none">
+      <div id="add-child-card">
+        <div id="plus">+</div>
+        <div id="add-child-text">자녀 추가하기</div>
+        <div id="add-child-desc">
+          새 계정을 추가하여 자녀의 용돈을 관리해 보세요.
+        </div>
       </div>
-    </div>
+    </router-link>
   </div>
 </template>
 
@@ -43,6 +46,7 @@ childListStore.fetchChildList();
   align-items: center;
   gap: 16px;
   padding: 16px;
+  color: black;
 }
 #plus {
   width: 96px;
