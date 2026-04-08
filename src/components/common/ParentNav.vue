@@ -17,6 +17,8 @@
 
 <style scoped>
 .header {
+  position: fixed;
+  height: 68px;
   display: flex;
   align-items: center;
   justify-content: space-between;
