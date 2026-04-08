@@ -15,8 +15,8 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/', name: 'Home', component: Home },
-    { path: '/:parent-id', name: 'Family', component: Family },
-    { path: '/add-child/:parent-id', name: 'AddChild', component: AddChild },
+    { path: '/:parentId', name: 'Family', component: Family },
+    { path: '/add-child/:parentId', name: 'AddChild', component: AddChild },
     { path: '/parent', name: 'ParentDashboard', component: ParentDashboard },
     {
       path: '/parent/children/:id/stats',
