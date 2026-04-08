@@ -39,4 +39,7 @@ childListStore.fetchParentNickname();
 .gray {
   color: gray;
 }
+h1 {
+  margin-top: 68px;
+}
 </style>
