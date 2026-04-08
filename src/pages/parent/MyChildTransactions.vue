@@ -1,16 +1,16 @@
 <template>
+  <div>
+    <ParentNav />
+  </div>
   <div class="transactions-page">
     <div class="transactions-card">
       <div class="top-area">
         <div>
-          <p class="sub-title">아이 거래내역</p>
           <h1>거래 내역</h1>
           <p v-if="transactionStore.states.child" class="child-name">
             자녀: {{ transactionStore.states.child.nickname }}
           </p>
         </div>
-
-        <button @click="goBack" class="back-btn">뒤로가기</button>
       </div>
 
       <TransactionList :transactions="transactionStore.states.transactions" />
@@ -30,6 +30,7 @@ import { onMounted, onUnmounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import TransactionList from '@/components/transactions/TransactionList.vue';
 import { useTransactionStore } from '@/stores/transaction';
+import ParentNav from '@/components/common/ParentNav.vue';
 
 const route = useRoute();
 const router = useRouter();
@@ -57,6 +58,7 @@ onUnmounted(() => {
   background: #eaeff2;
   padding: 32px 20px;
   box-sizing: border-box;
+  padding-top: 80px;
 }
 
 .transactions-card {
