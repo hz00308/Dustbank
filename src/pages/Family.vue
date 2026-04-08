@@ -41,7 +41,7 @@ import UserList from '@/components/user/UserList.vue';
   padding: 16px;
 }
 .main {
-  height: calc(100vh - 148px);
+  height: 95vh;
 }
 .footer {
   height: 80px;
@@ -71,7 +71,7 @@ import UserList from '@/components/user/UserList.vue';
 
 .userGroup {
   width: 100%;
-  height: 336px;
+  margin-bottom: 50px;
 }
 
 .msg {
