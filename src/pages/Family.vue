@@ -1,8 +1,8 @@
 <template>
-  <div class="container1">
-    <Header class="header" />
+  <div class="background">
+    <Header />
     <!-- <div class="header"></div> -->
-    <div class="main">
+    <div class="contents">
       <div class="titleGroup">
         <p class="maintitle">Welcome,<span>Family</span>.</p>
         <p class="subtitle">
@@ -20,7 +20,8 @@
         </div>
       </div>
     </div>
-    <Footer class="footer" />
+
+    <Footer />
     <!-- <div class="footer"></div> -->
   </div>
 </template>
@@ -32,26 +33,24 @@ import UserList from '@/components/user/UserList.vue';
 </script>
 
 <style scoped>
-.container {
-  padding: 0;
-  margin: 0;
+.background {
+  background-color: #f7f9fb;
 }
 .header {
   height: 68px;
   padding: 16px;
 }
-.main {
-  height: 95vh;
+.contents {
+  width: 1260px;
+  margin: 0 auto;
+  padding: 100px;
 }
 .footer {
   height: 80px;
   padding: 32px;
 }
 
-.main {
-  padding: 0 100px;
-  background-color: #f7f9fb;
-}
+/* css */
 .titleGroup {
   margin-bottom: 64px;
   width: 100%;

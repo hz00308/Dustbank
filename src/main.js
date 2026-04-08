@@ -1,5 +1,9 @@
 import './assets/main.css';
+<<<<<<< HEAD
 // import 'bootstrap/dist/css/bootstrap.css';
+=======
+// import 'bootstrap/dist/css/bootst/ap.css';
+>>>>>>> develop
 
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
