@@ -105,8 +105,7 @@
         </section>
 
         <div class="action-area">
-          <p v-if="statusMessage" class="status-text">{{ statusMessage }}</p>
-          <button type="button" class="submit-button" @click="submitTransaction">
+          <button type="button" class="submit-button">
             지출 기록하기
           </button>
           <button type="button" class="cancel-button">취소</button>
@@ -122,12 +121,8 @@
 
 <script setup>
 import { computed, ref } from 'vue';
-import { useRoute } from 'vue-router';
 import ChildNav from '@/components/common/ChildNav.vue';
-import { useTransactionStore } from '@/stores/transaction';
 
-const route = useRoute();
-const transactionStore = useTransactionStore();
 const categories = [
   { name: '식사', icon: '🍚', color: 'orange' },
   { name: '간식', icon: '🍪', color: 'yellow' },
@@ -143,7 +138,6 @@ const amountAnimationKey = ref(0);
 const selectedCategory = ref('장난감');
 const selectedNeedType = ref('need');
 const memo = ref('');
-const statusMessage = ref('');
 
 const formattedAmount = computed(() => currentAmount.value.toLocaleString('ko-KR'));
 const currentDateLabel = computed(() => {
@@ -165,30 +159,6 @@ function updateAmount(value) {
 function resetAmount() {
   currentAmount.value = 0;
   amountAnimationKey.value += 1;
-}
-
-async function submitTransaction() {
-  if (currentAmount.value <= 0) {
-    statusMessage.value = '금액을 먼저 선택해주세요.';
-    return;
-  }
-
-  try {
-    await transactionStore.addTransaction({
-      childId: route.params.id,
-      amount: currentAmount.value,
-      memo: memo.value,
-      category1: selectedNeedType.value === 'need' ? 'N' : 'W',
-      category2: selectedCategory.value,
-      type: 'E',
-    });
-
-    statusMessage.value = '지출 내역이 저장되었어요.';
-    memo.value = '';
-    resetAmount();
-  } catch (error) {
-    statusMessage.value = '저장 중 문제가 생겼어요. 다시 시도해주세요.';
-  }
 }
 </script>
 
