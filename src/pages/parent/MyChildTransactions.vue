@@ -2,45 +2,69 @@
   <div>
     <ParentNav />
   </div>
+
   <div class="transactions-page">
     <div class="transactions-card">
       <div class="top-area">
-        <div>
+        <div class="top-content">
           <h1>거래 내역</h1>
+
           <p v-if="transactionStore.states.child" class="child-name">
             자녀: {{ transactionStore.states.child.nickname }}
           </p>
+
+          <div class="filter-btns">
+            <button
+              :class="{ active: filterType === 'ALL' }"
+              @click="filterType = 'ALL'"
+            >
+              전체
+            </button>
+
+            <button
+              :class="{ active: filterType === 'I' }"
+              @click="filterType = 'I'"
+            >
+              수입
+            </button>
+
+            <button
+              :class="{ active: filterType === 'E' }"
+              @click="filterType = 'E'"
+            >
+              지출
+            </button>
+          </div>
+
+          <TransactionList :transactions="filteredTransactions" />
         </div>
       </div>
-
-      <TransactionList :transactions="transactionStore.states.transactions" />
-
-      <p
-        v-if="transactionStore.states.transactions.length === 0"
-        class="empty-text"
-      >
-        아직 거래 내역이 없어요.
-      </p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, onUnmounted } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { useRoute } from 'vue-router';
 import TransactionList from '@/components/transactions/TransactionList.vue';
 import { useTransactionStore } from '@/stores/transaction';
 import ParentNav from '@/components/common/ParentNav.vue';
 
+const filterType = ref('ALL');
 const route = useRoute();
-const router = useRouter();
 const transactionStore = useTransactionStore();
 
 const childId = route.params.id;
 
-const goBack = () => {
-  router.push('/parent');
-};
+const filteredTransactions = computed(() => {
+  if (filterType.value === 'ALL') {
+    return transactionStore.states.transactions;
+  }
+
+  return transactionStore.states.transactions.filter(
+    (item) => item.type === filterType.value,
+  );
+});
 
 onMounted(() => {
   transactionStore.fetchChild(childId);
@@ -55,10 +79,10 @@ onUnmounted(() => {
 <style scoped>
 .transactions-page {
   min-height: 100vh;
-  background: #eaeff2;
+  background: #f7f9fb;
   padding: 32px 20px;
-  box-sizing: border-box;
   padding-top: 80px;
+  box-sizing: border-box;
 }
 
 .transactions-card {
@@ -74,11 +98,8 @@ onUnmounted(() => {
   margin-bottom: 28px;
 }
 
-.sub-title {
-  margin: 0 0 8px;
-  font-size: 14px;
-  font-weight: 700;
-  color: #7b8190;
+.top-content {
+  width: 100%;
 }
 
 h1 {
@@ -95,21 +116,24 @@ h1 {
   color: #2456cc;
 }
 
-.back-btn {
+.filter-btns {
+  display: flex;
+  gap: 12px;
+  margin: 16px 0 20px;
+}
+
+.filter-btns button {
   border: none;
-  background: linear-gradient(90deg, #4466ea, #6a88ff);
-  color: white;
-  padding: 12px 18px;
+  background: white;
+  padding: 10px 18px;
   border-radius: 999px;
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
-  box-shadow: 0 10px 24px rgba(83, 114, 243, 0.22);
 }
 
-.empty-text {
-  margin-top: 20px;
-  color: #8a93a1;
-  font-size: 15px;
+.filter-btns button.active {
+  background: #4466ea;
+  color: white;
 }
 </style>
