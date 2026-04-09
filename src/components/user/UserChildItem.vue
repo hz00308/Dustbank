@@ -1,7 +1,7 @@
 <template>
   <li>
     <router-link
-      :to="{ name: 'ChildDashboard', params: { id } }"
+      :to="{ name: 'ChildDashboard', params: { id: child.id } }"
       style="text-decoration: none"
     >
       <div class="selectedImg">
@@ -15,13 +15,11 @@
 
 <script setup>
 import { useUserStore } from '@/stores/user';
-const id = 'tyuiopk';
 
 const userStore = useUserStore();
 defineProps({
   child: { Type: Object, required: true },
 });
-
 const getIconPath = (iconId) => {
   return new URL(`../../assets/icons/icon${iconId}.png`, import.meta.url).href;
 };
