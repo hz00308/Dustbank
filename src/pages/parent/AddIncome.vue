@@ -14,13 +14,13 @@
           <p>올바른 경제 관념의 시작, 지금 자녀에게 용돈을 보내보세요.</p>
         </div>
       </div>
-      <form action="" class="inputForm">
+      <form @submit.prevent="submitForm" class="inputForm">
         <div class="left">
           <div class="left-top box">
             <p>금액 입력</p>
             <div class="price">
               <span class="won">&#8361</span>
-              <input type="number" id="amount" placeholder="0" pattern="[0-9]*" />
+              <input type="number" id="amount" placeholder="0" pattern="[0-9]*" v-model.number="transactionData.amount"/>
             </div>
             <div class="priceBtn">
               <div class="btn" @click="addNum(100)"><p>+ 100</p></div>
@@ -33,7 +33,7 @@
             <div class="inputBox">
               <div class="categoryBox inputGroup">
                 <label for="category">분류</label>
-                <select name="category" id="category" class="category">
+                <select name="category" id="category" class="category" v-model="transactionData.category3">
                   <option value="allowance">정기용돈</option>
                   <option value="reward">심부름</option>
                   <option value="newYearGift">세뱃돈</option>
@@ -42,12 +42,14 @@
               </div>
               <div class="date inputGroup">
                 <label for="date">날짜</label>
-                <input type="date" id="date" />
+                <input type="date" id="date" v-model="dateData.date"/>
               </div>
               <div class="time inputGroup">
                 <label for="time">시간</label>
                 <div class="time" id="time">
-                  <input type="number" id="hour" min="0" max="24" placeholder="00"> : <input type="number" id="minute" min="0" max="59" placeholder="00">
+                  <input type="number" id="hour" min="0" max="24" placeholder="00" v-model="dateData.hour">
+                  <span> : </span>
+                  <input type="number" id="minute" min="0" max="59" placeholder="00" v-model="dateData.minute">
                 </div>
               </div>
             </div>
@@ -57,6 +59,7 @@
                 type="text"
                 placeholder="칭찬 한마디를 남겨주세요."
                 id="memo"
+                v-model="transactionData.memo"
               />
             </div>
           </div>
@@ -64,23 +67,23 @@
         <div class="right">
           <div class="right-top box">
             <div class="childInfo">
-              <img id="profileImg"/>
+              <img id="profileImg" :src="getIconPath(childData.iconId)"/>
               <div class="info">
-                <p id="childName"></p>
+                <p id="childName">{{ childData.nickname }}</p>
                 <div class="currentBalanceBox">
                   <span>현재 잔액 : </span>
-                  &#8361<span id="currentBalance"></span>
+                  &#8361<span id="currentBalance">{{ childData.balance }}</span>
                 </div>
               </div>
             </div>
             <div class="money">
               <div id="sendAmount">
                 <span class="moneyTitle">금액</span>
-                <span>&#8361{{ amount }}</span>
+                <span>&#8361{{ transactionData.amount }}</span>
               </div>
             </div>
             <div class="sendBtnBox">
-              <button id="sendBtn">용돈 주기</button>
+              <button id="sendBtn" type="submit">용돈 주기</button>
             </div>
           </div>
           <div class="right-bottom box">
@@ -103,47 +106,96 @@
 import ParentNav from '@/components/common/ParentNav.vue';
 import { useTransactionStore } from '@/stores/transaction';
 import { useRoute } from 'vue-router';
-import {onMounted, ref} from 'vue';
+import {onMounted, ref, reactive} from 'vue';
+
+const amount = ref(0);
+
 
 const getIconPath = (iconId) => {
   return new URL(`../../assets/icons/icon${iconId}.png`, import.meta.url).href;
 };
 
-let amount = ref(0);
 const addNum = (num) => { 
   // console.log(input);
-  const amountInput = document.getElementById('amount');
-  let value = Number(amountInput.value) + num;
-  amountInput.value = value;
-  amount.value = value;
+  transactionData.amount += num;
 };
 
 const route = useRoute();
 const transactionStore = useTransactionStore();
 const childId = route.params.id;
+
+const childData = reactive({
+  id: '',
+  parentId: '',
+  nickname: '',
+  iconId: null,
+  balance: 0
+})
+
+const transactionData = reactive({
+  childId: '',
+  parentId: '',
+  type: "I",
+  category1: null,
+  category2: null,
+  category3: "정기용돈",
+  amount: 0,
+  date : "",
+  createdAt: "",
+  memo: "",
+});
+
+const dateData = reactive({
+  date: '',
+  hour: 0,
+  minute: 0
+});
+
 onMounted(async () => {
   await transactionStore.fetchChild(childId);
   await transactionStore.fetchTransactions(childId);
   const child = transactionStore.states.child;
-  // console.log("child");
-  // console.log(child);
-  const iconId = child.iconId;
-  // console.log(iconId);
 
-  const profileImg = document.getElementById("profileImg");
-  // console.log(profileImg);
-  profileImg.src = getIconPath(iconId);
+  childData.id = child.id;
+  childData.parentId = child.parentId;
+  childData.nickname = child.nickname;
+  childData.iconId = child.iconId;
+  childData.balance = child.balance;
 
-  const childName = document.getElementById("childName");
-  // console.log(childName);
-  // console.log(child.nickname);
-  childName.innerHTML = child.nickname;
-
-  const currentBalance = document.getElementById("currentBalance");
-  currentBalance.innerHTML = child.balance;
-
+  transactionData.childId = child.id;
+  transactionData.parentId = child.parentId;
 });
 
+const formatDate = async () => {
+  const hour = String(dateData.hour).padStart(2,'0');
+  const minute = String(dateData.minute).padStart(2,'0');
+
+  if(!dateData.date) {
+    alert("날짜를 선택해주세요");
+    return;
+  }
+
+  const localDateTime = `${dateData.date}T${hour}:${minute}:00`;
+  const isoDate = new Date(localDateTime).toISOString();
+  transactionData.date = isoDate;
+  transactionData.createdAt = new Date().toISOString();
+}
+
+const submitForm = async () => {
+  formatDate();
+  const success = await transactionStore.postIncome(transactionData);
+  if(success) {
+    transactionData.amount = 0;
+    transactionData.memo = "";
+    transactionData.category = "정기용돈";
+    transactionData.date = "";
+    transactionData.createdAt = "";
+
+    dateData.date = new Date().toISOString().split('T')[0];
+    dateData.hour = 0;
+    dateData.minute = 0;
+  }
+}
 </script>
 
 <style scoped>
