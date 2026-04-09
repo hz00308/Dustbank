@@ -11,12 +11,16 @@ import { Doughnut } from 'vue-chartjs';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { computed } from 'vue';
+import { useTransactionStore } from '@/stores/transaction';
+
+const transactionStore = useTransactionStore();
+const categoryAmount = computed(() => transactionStore.categoryAmount);
 
 ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels);
 
 const chartData = computed(() => {
   return {
-    labels: ['식사', '장난감', '취미', '준비물', '기타'],
+    labels: ['식사', '간식', '장난감', '취미', '준비물', '기타'],
     datasets: [
       {
         backgroundColor: [
@@ -27,7 +31,7 @@ const chartData = computed(() => {
           '#FCA5A5',
           '#D1D5DB',
         ],
-        data: [10, 10, 10, 10, 10, 10],
+        data: categoryAmount.value,
         offset: 3,
         hoverOffset: 35,
       },
@@ -61,12 +65,13 @@ const chartOptions = {
         usePointStyle: true,
         pointStyle: 'rect',
         font: {
-          size: 16,
+          size: 14,
         },
       },
     },
     datalabels: {
       formatter: (value, ctx) => {
+        if (value === 0) return ''; // 0.0%인 경우 표시하지 않도록
         let sum = 0;
         const dataArr = ctx.chart.data.datasets[0].data;
         for (const data of dataArr) {

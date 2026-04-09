@@ -77,16 +77,41 @@ export const useTransactionStore = defineStore('transaction', () => {
   });
 
   // type E인 것들에서 다시 필터링 (1. N/W  2. 카테고리별)
+  const needWantCount = computed(() => {
+    let need = 0;
+    let want = 0;
+    for (const item of thisWeekExpenditureList.value) {
+      if (item.category1 === 'N') need++;
+      else if (item.category1 === 'W') want++;
+    }
+    return [need, want];
+  });
+  const categoryAmount = computed(() => {
+    let food = 0;
+    let snack = 0;
+    let toy = 0;
+    let hobby = 0;
+    let school = 0;
+    let etc = 0;
+    for (const item of thisWeekExpenditureList.value) {
+      if (item.category2 === '식사') food += item.amount;
+      else if (item.category2 === '간식') snack += item.amount;
+      else if (item.category2 === '장난감') toy += item.amount;
+      else if (item.category2 === '취미') hobby += item.amount;
+      else if (item.category2 === '준비물') school += item.amount;
+      else if (item.category2 === '기타') etc += item.amount;
+    }
+    return [food, snack, toy, hobby, school, etc];
+  });
 
   return {
     states,
     fetchChild,
     fetchTransactions,
     resetData,
-    thisWeekTransactions,
-    thisWeekIncomeList,
-    thisWeekExpenditureList,
     thisWeekTotalIncome,
     thisWeekTotalExpenditure,
+    needWantCount,
+    categoryAmount,
   };
 });
