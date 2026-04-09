@@ -1,32 +1,72 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
+import { useTransactionStore } from '@/stores/transactionStore';
+
+const transactionStore = useTransactionStore();
+
+const emit = defineEmits(['close']);
+
+const props = defineProps({
+  transaction: Object,
+});
 
 const amount = ref('');
+const selectedCategory = ref('');
+const memo = ref('');
+const date = ref('');
 
-const selectedCategory = ref('전자기기');
+// 데이터 불러오기
+watch(
+  () => props.transaction,
+  (t) => {
+    if (!t) return;
+
+    amount.value = Number(t.amount).toLocaleString();
+    selectedCategory.value = t.category2;
+    memo.value = t.memo;
+    date.value = t.date?.slice(0, 10);
+  },
+  { immediate: true },
+);
 
 const selectCategory = (category) => {
   selectedCategory.value = category;
 };
+
+// 금액 콤마 처리
 const formatAmount = (e) => {
   let value = e.target.value;
 
-  // 숫자만 남기기
   value = value.replace(/[^0-9]/g, '');
 
-  // 콤마 추가
-  value = Number(value).toLocaleString();
+  if (value === '') {
+    amount.value = '';
+    return;
+  }
 
-  amount.value = value;
+  amount.value = Number(value).toLocaleString();
 };
-// 삭제 버튼
-const emit = defineEmits(['close']);
-const deleteTransaction = () => {
+
+// 삭제
+const deleteTransaction = async () => {
+  await transactionStore.deleteTransaction(props.transaction.id);
+
   emit('close');
 };
 
-// 수정 완료 버튼
-const updateTransaction = () => {
+// 수정
+const updateTransaction = async () => {
+  const newAmount = Number(amount.value.replace(/,/g, ''));
+
+  const updatedData = {
+    amount: newAmount,
+    category2: selectedCategory.value,
+    memo: memo.value,
+    date: date.value,
+  };
+
+  await transactionStore.updateTransaction(props.transaction.id, updatedData);
+
   emit('close');
 };
 </script>
@@ -38,12 +78,12 @@ const updateTransaction = () => {
 
       <h2 class="title">거래 정보 수정</h2>
 
-      <!-- 금액 -->
       <div class="amount-box">
         <span>금액</span>
 
         <div class="amount-input">
           <span class="won">₩</span>
+
           <input
             v-model="amount"
             @input="formatAmount"
@@ -52,21 +92,22 @@ const updateTransaction = () => {
           />
         </div>
       </div>
+
       <div class="category-title">카테고리</div>
-      <!-- 카테고리 -->
+
       <div class="category">
         <button
-          :class="{ active: selectedCategory === '전자기기' }"
-          @click="selectCategory('전자기기')"
+          :class="{ active: selectedCategory === '학용품' }"
+          @click="selectCategory('학용품')"
         >
-          💻 전자기기
+          ✏️ 학용품
         </button>
 
         <button
-          :class="{ active: selectedCategory === '식비' }"
-          @click="selectCategory('식비')"
+          :class="{ active: selectedCategory === '간식' }"
+          @click="selectCategory('간식')"
         >
-          🍴 식비
+          🍴 간식
         </button>
 
         <button
@@ -75,7 +116,19 @@ const updateTransaction = () => {
         >
           🚌 교통비
         </button>
+        <button
+          :class="{ active: selectedCategory === '용돈' }"
+          @click="selectCategory('용돈')"
+        >
+          💰 용돈
+        </button>
 
+        <button
+          :class="{ active: selectedCategory === '장난감' }"
+          @click="selectCategory('장난감')"
+        >
+          🧸 장난감
+        </button>
         <button
           :class="{ active: selectedCategory === '기타' }"
           @click="selectCategory('기타')"
@@ -83,22 +136,28 @@ const updateTransaction = () => {
           ••• 기타
         </button>
       </div>
-      <!-- 날짜 -->
+
       <div>날짜</div>
-      <input class="date-input" placeholder="YYYY. MM. DD." />
 
-      <!-- 메모 -->
+      <input class="date-input" v-model="date" type="date" />
+
       <div>메모</div>
-      <textarea class="memo-box" placeholder="메모 입력"></textarea>
 
-      <!-- 버튼 -->
+      <textarea
+        class="memo-box"
+        v-model="memo"
+        placeholder="메모 입력"
+      ></textarea>
+
       <div class="actions">
         <button class="delete" @click="deleteTransaction">삭제</button>
+
         <button class="save" @click="updateTransaction">수정 완료</button>
       </div>
     </div>
   </div>
 </template>
+
 <style>
 .modal-overlay {
   position: fixed;
@@ -106,13 +165,10 @@ const updateTransaction = () => {
   left: 0;
   width: 100%;
   height: 100%;
-
   background: rgba(0, 0, 0, 0.3);
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   z-index: 999;
 }
 
@@ -122,7 +178,6 @@ const updateTransaction = () => {
   background: white;
   padding: 24px;
   border-radius: 24px;
-
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -132,10 +187,8 @@ const updateTransaction = () => {
   position: absolute;
   top: 16px;
   right: 16px;
-
   width: 32px;
   height: 32px;
-
   border-radius: 50%;
   border: 1px solid #e5e7eb;
   background: white;
@@ -146,6 +199,29 @@ const updateTransaction = () => {
   border-radius: 16px;
   padding: 16px;
   text-align: center;
+}
+
+.amount-input {
+  font-size: 28px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.amount-input input {
+  border: none;
+  background: transparent;
+  font-size: 28px;
+  font-weight: bold;
+  width: 200px;
+  text-align: center;
+  outline: none;
+}
+
+.won {
+  color: #2563eb;
 }
 
 .category {
@@ -160,11 +236,8 @@ const updateTransaction = () => {
   border: none;
   background: #f3f4f6;
   cursor: pointer;
-  font-weight: 500;
-
   display: flex;
   align-items: center;
-  justify-content: flex-start;
   gap: 8px;
 }
 
@@ -173,6 +246,7 @@ const updateTransaction = () => {
   background: white;
   color: #2563eb;
 }
+
 .date-input {
   padding: 12px;
   border-radius: 12px;
@@ -181,7 +255,7 @@ const updateTransaction = () => {
 }
 
 .memo-box {
-  height: 50px;
+  height: 60px;
   resize: none;
   border-radius: 12px;
   border: none;
@@ -207,27 +281,5 @@ const updateTransaction = () => {
   border: none;
   padding: 10px 20px;
   border-radius: 20px;
-}
-.amount-input {
-  font-size: 28px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-}
-
-.amount-input input {
-  border: none;
-  background: transparent;
-  font-size: 28px;
-  font-weight: bold;
-  width: 200px;
-  text-align: center;
-  border: none;
-}
-
-.won {
-  color: #2563eb;
 }
 </style>
