@@ -4,13 +4,13 @@
 
     <nav class="nav">
       <router-link :to="{ name: 'Home' }">Home</router-link>
-      <router-link :to="{ name: 'ChildDashboard', params: { id: 1 } }"
+      <router-link :to="{ name: 'ChildDashboard', params: { id: childId } }"
         >Dashboard</router-link
       >
-      <router-link :to="{ name: 'ChildTransactions', params: { id: 1 } }"
+      <router-link :to="{ name: 'ChildTransactions', params: { id: childId } }"
         >Transaction</router-link
       >
-      <router-link :to="{ name: 'AddExpenditure', params: { id: 1 } }"
+      <router-link :to="{ name: 'AddExpenditure', params: { id: childId } }"
         >Expenditure</router-link
       >
     </nav>
@@ -21,7 +21,13 @@
   </header>
 </template>
 
-<script setup></script>
+<script setup>
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const childId = computed(() => String(route.params.id ?? 'gildong'));
+</script>
 
 <style scoped>
 .header {
