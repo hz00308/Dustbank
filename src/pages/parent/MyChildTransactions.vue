@@ -7,10 +7,16 @@
     <div class="transactions-card">
       <div class="top-area">
         <div class="top-content">
-          <h1>거래 내역</h1>
+          <h1>
+            우리
+            <span class="blue">{{
+              transactionStore.states.child.nickname
+            }}</span
+            >의 거래 내역
+          </h1>
 
           <p v-if="transactionStore.states.child" class="child-name">
-            자녀: {{ transactionStore.states.child.nickname }}
+            <!-- 자녀: {{ transactionStore.states.child.nickname }} -->
           </p>
 
           <div class="filter-btns">
@@ -104,9 +110,11 @@ onUnmounted(() => {
 
 h1 {
   margin: 0;
-  font-size: 40px;
-  font-weight: 800;
+  /* font-size: 40px;
+  font-weight: 800; */
   color: #2f2f33;
+  padding-top: 40px;
+  padding-bottom: 20px;
 }
 
 .child-name {
@@ -135,5 +143,8 @@ h1 {
 .filter-btns button.active {
   background: #4466ea;
   color: white;
+}
+.blue {
+  color: #2456cc;
 }
 </style>
