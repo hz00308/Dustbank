@@ -106,10 +106,7 @@
 import ParentNav from '@/components/common/ParentNav.vue';
 import { useTransactionStore } from '@/stores/transaction';
 import { useRoute } from 'vue-router';
-import {onMounted, ref, reactive} from 'vue';
-
-const amount = ref(0);
-
+import {onMounted, reactive} from 'vue';
 
 const getIconPath = (iconId) => {
   return new URL(`../../assets/icons/icon${iconId}.png`, import.meta.url).href;
@@ -152,7 +149,7 @@ const dateData = reactive({
   minute: 0
 });
 
-onMounted(async () => {
+const initData = async () => {
   await transactionStore.fetchChild(childId);
   await transactionStore.fetchTransactions(childId);
   const child = transactionStore.states.child;
@@ -165,7 +162,8 @@ onMounted(async () => {
 
   transactionData.childId = child.id;
   transactionData.parentId = child.parentId;
-});
+};
+initData();
 
 const formatDate = async () => {
   const hour = String(dateData.hour).padStart(2,'0');
