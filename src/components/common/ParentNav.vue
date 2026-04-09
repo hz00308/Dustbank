@@ -3,7 +3,9 @@
     <div class="logo">티끌저금통</div>
 
     <nav class="nav">
-      <router-link :to="{ name: 'Home' }">Home</router-link>
+      <router-link :to="{ name: 'Family', params: { id: 'momdad' } }"
+        >Home</router-link
+      >
       <router-link :to="{ name: 'ParentDashboard' }">Dashboard</router-link>
     </nav>
 
