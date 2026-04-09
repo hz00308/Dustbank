@@ -20,7 +20,7 @@ const chartData = computed(() => {
     datasets: [
       {
         backgroundColor: ['#4C77EF', '#ACB3B7'],
-        data: [10, 7],
+        data: [10, 7], // 여기를 Pinia에서 가져와야 함
         offset: 3,
         hoverOffset: 35,
       },

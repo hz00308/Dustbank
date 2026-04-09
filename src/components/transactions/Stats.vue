@@ -2,16 +2,16 @@
   <div id="stats">
     <div id="money-container">
       <div class="money-card">
-        <div class="money-text">잔액</div>
-        <div id="balance" class="money-amount">&#8361 40000</div>
+        <div class="money-text">총 잔액</div>
+        <div id="balance" class="money-amount">&#8361 {{transactionStore.states.child.balance}}</div>
       </div>
       <div class="money-card">
-        <div class="money-text">수입</div>
-        <div id="income" class="money-amount">&#8361 15000</div>
+        <div class="money-text">이번 주 수입</div>
+        <div id="income" class="money-amount">&#8361 {{ thisWeekTotalIncome }}</div>
       </div>
       <div class="money-card">
-        <div class="money-text">지출</div>
-        <div id="expenditure" class="money-amount">&#8361 8000</div>
+        <div class="money-text">이번 주 지출</div>
+        <div id="expenditure" class="money-amount">&#8361 {{ thisWeekTotalExpenditure }}</div>
       </div>
     </div>
     <div id="graph-container">
@@ -24,6 +24,20 @@
 <script setup>
 import NeedWant from './NeedWant.vue';
 import Category from './Category.vue';
+import { useTransactionStore } from '@/stores/transaction';
+import { useRoute } from 'vue-router';
+import { computed } from 'vue';
+
+const transactionStore = useTransactionStore();
+const currentRoute = useRoute();
+
+transactionStore.fetchChild(currentRoute.params.id);
+transactionStore.fetchTransactions(currentRoute.params.id);
+
+// 반응성 유지를 위해 computed 사용!!
+const thisWeekTotalIncome = computed(() => transactionStore.thisWeekTotalIncome);
+const thisWeekTotalExpenditure = computed(() => transactionStore.thisWeekTotalExpenditure);
+
 </script>
 
 <style scoped>
