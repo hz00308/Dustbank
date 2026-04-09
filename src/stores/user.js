@@ -7,7 +7,6 @@ export const useUserStore = defineStore('user', () => {
   const states = reactive({
     childList: [],
     parentList: [],
-    currentUser: null,
   });
 
   const BASEParent = '/api/parents';
