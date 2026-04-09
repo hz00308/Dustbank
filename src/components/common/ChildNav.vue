@@ -1,6 +1,11 @@
 <template>
   <header class="header">
-    <div class="logo">티끌저금통</div>
+    <router-link
+      :to="{ name: 'Family', params: { id: 'momdad' } }"
+      class="logo"
+    >
+      티끌저금통
+    </router-link>
 
     <nav class="nav">
       <router-link :to="{ name: 'Family', params: { id: 'momdad' } }"
@@ -54,6 +59,8 @@ const logout = () => {
 .logo {
   font-size: 22px;
   font-weight: 700;
+  text-decoration: none;
+  color: #2563eb;
 }
 
 .nav {

@@ -20,5 +20,6 @@
 .logo {
   font-size: 22px;
   font-weight: 700;
+  margin-left: 24px;
 }
 </style>
