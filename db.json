@@ -12,14 +12,14 @@
       "parentId": "momdad",
       "nickname": "길동이",
       "iconId": 2,
-      "balance": 78400
+      "balance": 578400
     },
     {
       "id": "kongsun",
       "parentId": "momdad",
       "nickname": "콩순이",
       "iconId": 3,
-      "balance": 66200
+      "balance": 166200
     }
   ],
   "transactions": [
