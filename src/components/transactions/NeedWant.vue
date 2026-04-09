@@ -90,6 +90,7 @@ const chartOptions = {
   background-color: white;
   border-radius: 48px;
   padding: 40px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
 #chart-title {
   font-size: 24px;

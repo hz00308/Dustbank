@@ -55,6 +55,7 @@ const thisWeekTotalExpenditure = computed(() => transactionStore.thisWeekTotalEx
   justify-content: center;
   gap: 16px;
   padding: 32px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
 .money-text {
   color: gray;
