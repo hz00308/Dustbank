@@ -215,7 +215,7 @@ let prevAmount = 0;
 //   transactionData.amount = Number(value).toLocaleString();
 // };
 
-onMounted(async () => {
+const initData = async () => {
   await transactionStore.fetchTransaction(transactionId);
   const transaction = transactionStore.states.transaction;
   console.log(transaction);
@@ -242,7 +242,10 @@ onMounted(async () => {
   dateData.date = date;
   dateData.hour = hour;
   dateData.minute = minute;
-});
+};
+
+initData();
+
 const closeModal = () => {
   emit('close');
   router.back();
