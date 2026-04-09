@@ -34,10 +34,10 @@
               <div class="categoryBox inputGroup">
                 <label for="category">분류</label>
                 <select name="category" id="category" class="category" v-model="transactionData.category3">
-                  <option value="allowance">정기용돈</option>
-                  <option value="reward">심부름</option>
-                  <option value="newYearGift">세뱃돈</option>
-                  <option value="other">기타</option>
+                  <option value="정기용돈">정기용돈</option>
+                  <option value="보너스">보너스</option>
+                  <option value="세뱃돈">세뱃돈</option>
+                  <option value="기타">기타</option>
                 </select>
               </div>
               <div class="date inputGroup">
