@@ -819,58 +819,6 @@
       "memo": "오늘의 젤리"
     },
     {
-      "childId": "tyuiopk",
-      "parentId": "momdad",
-      "type": "E",
-      "category1": "N",
-      "category2": "식사",
-      "category3": null,
-      "amount": 10000,
-      "date": "2026-04-09T05:45:05.614Z",
-      "createdAt": "2026-04-09T05:45:05.614Z",
-      "memo": "마라탕",
-      "id": "d3BxvaUZh2Q"
-    },
-    {
-      "childId": "tyuiopk",
-      "parentId": "momdad",
-      "type": "E",
-      "category1": "W",
-      "category2": "장난감",
-      "category3": null,
-      "amount": 20000,
-      "date": "2026-04-09T05:45:37.814Z",
-      "createdAt": "2026-04-09T05:45:37.814Z",
-      "memo": "레고",
-      "id": "s_YkFl8wsLk"
-    },
-    {
-      "childId": "tyuiopk",
-      "parentId": "momdad",
-      "type": "E",
-      "category1": "W",
-      "category2": "간식",
-      "category3": null,
-      "amount": 5500,
-      "date": "2026-04-09T05:49:43.319Z",
-      "createdAt": "2026-04-09T05:49:43.319Z",
-      "memo": "크루와상",
-      "id": "7z5cbdFd0P0"
-    },
-    {
-      "childId": "tyuiopk",
-      "parentId": "momdad",
-      "type": "E",
-      "category1": "W",
-      "category2": "식사",
-      "category3": null,
-      "amount": 16500,
-      "date": "2026-04-09T05:50:42.712Z",
-      "createdAt": "2026-04-09T05:50:42.712Z",
-      "memo": "치킨",
-      "id": "OlSpprI0LBU"
-    },
-    {
       "childId": "gildong",
       "parentId": "momdad",
       "type": "E",
