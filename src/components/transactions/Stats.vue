@@ -3,7 +3,7 @@
     <div id="money-container">
       <div class="money-card">
         <div class="money-text">총 잔액</div>
-        <div id="balance" class="money-amount">&#8361 {{transactionStore.states.child.balance}}</div>
+        <div id="balance" class="money-amount">&#8361 {{transactionStore.states.child?.balance}}</div>
       </div>
       <div class="money-card">
         <div class="money-text">이번 주 수입</div>
