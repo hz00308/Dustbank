@@ -1,5 +1,5 @@
 <template>
-  <div class="transaction-list-container">
+  <div class="transactionList">
     <div
       v-for="(items, date) in groupedTransactions"
       :key="date"
@@ -50,7 +50,7 @@ const groupedTransactions = computed(() => {
 </script>
 
 <style scoped>
-.transaction-list-container {
+.transactionList {
   display: flex;
   flex-direction: column;
   gap: 32px;
