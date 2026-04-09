@@ -24,7 +24,9 @@ export const useTransactionStore = defineStore('transaction', () => {
 
   const fetchTransactions = async (childId) => {
     try {
-      const response = await axios.get(`${BASE_TRANSACTIONS}?childId=${childId}`);
+      const response = await axios.get(
+        `${BASE_TRANSACTIONS}?childId=${childId}`,
+      );
       states.transactions = response.data;
       return response.data;
     } catch (e) {
@@ -59,7 +61,13 @@ export const useTransactionStore = defineStore('transaction', () => {
     }
   };
 
-  const createExpenditure = async ({ childId, amount, category2, needType, memo }) => {
+  const createExpenditure = async ({
+    childId,
+    amount,
+    category2,
+    needType,
+    memo,
+  }) => {
     const child = await fetchChild(childId);
 
     if (!child) {
@@ -185,13 +193,10 @@ export const useTransactionStore = defineStore('transaction', () => {
     fetchTransactions,
     createExpenditure,
     resetData,
-<<<<<<< HEAD
     postIncome,
-=======
     thisWeekTotalIncome,
     thisWeekTotalExpenditure,
     needWantCount,
     categoryAmount,
->>>>>>> develop
   };
 });
