@@ -1,10 +1,12 @@
 <template>
-  <ParentNav />
-  <div id="dashboard">
-    <h1>MyChildStats</h1>
-    <Stats />
+  <div id="container">
+    <ParentNav />
+    <div id="dashboard">
+      <h1>MyChildStats</h1>
+      <Stats />
+    </div>
+    <Footer />
   </div>
-  <Footer />
 </template>
 
 <script setup>
@@ -19,11 +21,19 @@ import Footer from '@/components/common/Footer.vue';
   padding: 4em;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 50px;
   height: calc(100vh-148px);
+  margin: 0 auto;
+  width: 1260px;
 }
 h1 {
   margin-top: 68px;
   font-weight: 600;
+  width: 100%;
+  padding-left: 40px;
+}
+#container {
+  background-color: #f7f9fb;
 }
 </style>
