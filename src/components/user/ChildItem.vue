@@ -14,9 +14,7 @@
           class="rlink"
           ><div class="btn2">통계 보기</div></router-link
         >
-        <router-link
-          :to="{ name: 'MyChildTransactions', params: { id } }"
-          class="rlink"
+        <router-link class="rlink" :to="`/parent/children/${id}/transactions`"
           ><div class="btn2">거래 내역</div></router-link
         >
       </div>
