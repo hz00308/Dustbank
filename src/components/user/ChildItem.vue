@@ -42,6 +42,7 @@ const getIconPath = (iconId) => {
   align-items: center;
   gap: 16px;
   padding: 16px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
 img {
   width: 150px;
