@@ -9,7 +9,7 @@ export const useChildListStore = defineStore('childList', () => {
   });
 
   const BASEURI1 = '/api/children';
-  const BASEURI2 = '/api/parents?id=34ee7fwh'; // 일단 부모 한명이므로 아이디 하드코딩
+  const BASEURI2 = '/api/parents?id=momdad'; // 일단 부모 한명이므로 아이디 하드코딩
 
   const fetchChildList = async () => {
     try {
