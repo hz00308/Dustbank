@@ -1,17 +1,21 @@
 <template>
-  <ParentNav />
-  <div id="dashboard">
-    <div>
-      <h1>
-        안녕하세요,
-        <span class="blue">{{ childListStore.states.parentNickname }} 님</span>
-      </h1>
-      <div class="gray">티끌저금통과 함께 자녀 용돈을 손쉽게 관리하세요.</div>
-    </div>
+  <div>
+    <ParentNav />
+    <div id="dashboard">
+      <div>
+        <h1>
+          안녕하세요,
+          <span class="blue"
+            >{{ childListStore.states.parentNickname }} 님</span
+          >
+        </h1>
+        <div class="gray">티끌저금통과 함께 자녀 용돈을 손쉽게 관리하세요.</div>
+      </div>
 
-    <ChildList />
+      <ChildList />
+    </div>
+    <Footer />
   </div>
-  <Footer />
 </template>
 
 <script setup>
