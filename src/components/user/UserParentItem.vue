@@ -4,7 +4,7 @@
       :to="{ name: 'ParentDashboard' }"
       style="text-decoration: none"
     >
-      <div class="selectedImg">
+      <div class="imgBox">
         <img :src="getIconPath(parent.iconId)" />
       </div>
       <p class="nickname">{{ parent.nickname }}</p>
@@ -39,17 +39,17 @@ li {
   padding: 0;
   margin-right: 50px;
 }
-.selectedImg {
+.imgBox {
   width: 168px;
   height: 168px;
   border-radius: 50%;
-  border: 3px solid black;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0;
 }
-.selectedImg > img {
+.imgBox > img {
   width: 152px;
   height: 152px;
   background-color: rgb(203, 236, 255);
