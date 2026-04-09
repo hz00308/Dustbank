@@ -19,7 +19,7 @@
           <div class="left-top">
             <p>금액 입력</p>
             <div class="price">
-              <span class="won">\</span>
+              <span class="won">&#8361</span>
               <input type="number" id="num" placeholder="0" pattern="[0-9]*" />
             </div>
             <div class="priceBtn">
@@ -121,9 +121,14 @@ const addNum = (num) => {
   flex-direction: row;
   justify-content: space-between;
 }
+.left {
+  width: 560px;
+  margin: 0;
+  padding: 0;
+}
 .left-top {
-  width: 496px;
-  height: 216px;
+  width: 100%;
+  height: 280px;
   background-color: #ffffff;
   border-radius: 32px;
   padding: 32px;
@@ -181,8 +186,8 @@ const addNum = (num) => {
 }
 
 .left-bottom {
-  width: 496px;
-  height: 251px;
+  width: 100%;
+  height: 315px;
   background-color: #f0f4f7;
   padding: 32px;
   border-radius: 32px;
@@ -214,9 +219,6 @@ const addNum = (num) => {
   outline: none;
   box-sizing: border-box;
 }
-.left-bottom {
-  width: 496px;
-}
 .memoBox {
   width: 100%;
   display: flex;
@@ -229,9 +231,9 @@ const addNum = (num) => {
   margin-bottom: 10px;
 }
 
-.memoBox > input {
+#memo {
   border: none;
-  width: 455px;
+  width: 100%;
   height: 105px;
   border-radius: 30px;
   padding: 5px 20px;
