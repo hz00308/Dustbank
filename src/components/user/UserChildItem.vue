@@ -1,7 +1,7 @@
 <template>
   <li>
     <router-link
-      :to="{ name: 'ChildDashboard', params: { id } }"
+      :to="{ name: 'ChildDashboard', params: { id: child.id } }"
       style="text-decoration: none"
     >
       <div class="selectedImg">
@@ -15,7 +15,6 @@
 
 <script setup>
 import { useUserStore } from '@/stores/user';
-const id = 'tyuiopk';
 
 const userStore = useUserStore();
 defineProps({

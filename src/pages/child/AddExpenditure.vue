@@ -105,7 +105,10 @@
         </section>
 
         <div class="action-area">
-          <button type="button" class="submit-button">
+          <p v-if="statusMessage" class="status-text" :class="statusType">
+            {{ statusMessage }}
+          </p>
+          <button type="button" class="submit-button" @click="submitExpenditure">
             지출 기록하기
           </button>
           <button type="button" class="cancel-button">취소</button>
@@ -121,7 +124,9 @@
 
 <script setup>
 import { computed, ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import ChildNav from '@/components/common/ChildNav.vue';
+import { useTransactionStore } from '@/stores/transaction';
 
 const categories = [
   { name: '식사', icon: '🍚', color: 'orange' },
@@ -132,12 +137,18 @@ const categories = [
   { name: '기타', icon: '✨', color: 'gray' },
 ];
 
+const route = useRoute();
+const router = useRouter();
+const transactionStore = useTransactionStore();
+
 const quickAmounts = [500, 1000, 2000, 5000, 10000];
 const currentAmount = ref(5500);
 const amountAnimationKey = ref(0);
 const selectedCategory = ref('장난감');
 const selectedNeedType = ref('need');
 const memo = ref('');
+const statusMessage = ref('');
+const statusType = ref('');
 
 const formattedAmount = computed(() => currentAmount.value.toLocaleString('ko-KR'));
 const currentDateLabel = computed(() => {
@@ -159,6 +170,39 @@ function updateAmount(value) {
 function resetAmount() {
   currentAmount.value = 0;
   amountAnimationKey.value += 1;
+}
+
+async function submitExpenditure() {
+  statusMessage.value = '';
+  statusType.value = '';
+
+  if (currentAmount.value <= 0) {
+    statusMessage.value = '지출 금액을 먼저 입력해주세요.';
+    statusType.value = 'error';
+    return;
+  }
+
+  try {
+    const childId = String(route.params.id);
+
+    await transactionStore.createExpenditure({
+      childId,
+      amount: currentAmount.value,
+      category2: selectedCategory.value,
+      needType: selectedNeedType.value,
+      memo: memo.value,
+    });
+
+    statusMessage.value = '지출이 저장되었습니다.';
+    statusType.value = 'success';
+    resetAmount();
+    memo.value = '';
+    router.push({ name: 'ChildTransactions', params: { id: childId } });
+  } catch (error) {
+    statusMessage.value =
+      error?.message || '지출 저장 중 문제가 생겼습니다. 잠시 후 다시 시도해주세요.';
+    statusType.value = 'error';
+  }
 }
 </script>
 
@@ -533,9 +577,21 @@ function resetAmount() {
 
 .status-text {
   margin-bottom: 12px;
-  color: #4b6fbb;
+  padding: 12px 14px;
+  border-radius: 14px;
   font-size: 0.88rem;
+  font-weight: 700;
   text-align: center;
+}
+
+.status-text.success {
+  background: #e7f8ed;
+  color: #287548;
+}
+
+.status-text.error {
+  background: #fdecec;
+  color: #c24747;
 }
 
 .submit-button {
@@ -548,6 +604,7 @@ function resetAmount() {
   font-size: 1rem;
   font-weight: 700;
   box-shadow: 0 14px 24px rgba(72, 122, 228, 0.24);
+  cursor: pointer;
 }
 
 .cancel-button {
@@ -558,6 +615,7 @@ function resetAmount() {
   color: #b1b9c7;
   font-size: 0.9rem;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .footer-quote {
