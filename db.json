@@ -12,14 +12,14 @@
       "parentId": "momdad",
       "nickname": "길동이",
       "iconId": 2,
-      "balance": 578400
+      "balance": 78400
     },
     {
       "id": "kongsun",
       "parentId": "momdad",
       "nickname": "콩순이",
       "iconId": 3,
-      "balance": 166200
+      "balance": 66200
     }
   ],
   "transactions": [
@@ -843,71 +843,6 @@
       "createdAt": "2026-04-09T06:03:08.775Z",
       "memo": "달고나",
       "id": "hrV5Xqt9e_g"
-    },
-    {
-      "childId": "gildong",
-      "parentId": "momdad",
-      "type": "I",
-      "category1": null,
-      "category2": null,
-      "category3": "정기용돈",
-      "amount": 100000,
-      "date": "",
-      "createdAt": "",
-      "memo": "",
-      "id": "rmKp4Y1"
-    },
-    {
-      "childId": "gildong",
-      "parentId": "momdad",
-      "type": "I",
-      "category1": null,
-      "category2": null,
-      "category3": "정기용돈",
-      "amount": 100000,
-      "date": "",
-      "createdAt": "",
-      "memo": "",
-      "id": "onjxnPa"
-    },
-    {
-      "childId": "gildong",
-      "parentId": "momdad",
-      "type": "I",
-      "category1": null,
-      "category2": null,
-      "category3": "정기용돈",
-      "amount": 100000,
-      "date": "",
-      "createdAt": "",
-      "memo": "",
-      "id": "-2Vd-a8"
-    },
-    {
-      "childId": "gildong",
-      "parentId": "momdad",
-      "type": "I",
-      "category1": null,
-      "category2": null,
-      "category3": "정기용돈",
-      "amount": 100000,
-      "date": "",
-      "createdAt": "",
-      "memo": "",
-      "id": "yV69YzQ"
-    },
-    {
-      "childId": "gildong",
-      "parentId": "momdad",
-      "type": "I",
-      "category1": null,
-      "category2": null,
-      "category3": "정기용돈",
-      "amount": 100000,
-      "date": "2026-04-13T15:00:00.000Z",
-      "createdAt": "2026-04-09T15:28:37.068Z",
-      "memo": "",
-      "id": "gBWZncn"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
