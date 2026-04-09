@@ -3,6 +3,7 @@
     <ParentNav />
     <div id="dashboard">
       <h1>
+        우리
         <span class="blue">{{ transactionStore.states.child.nickname }}</span
         >의 소비 통계
       </h1>

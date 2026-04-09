@@ -2,7 +2,10 @@
   <div id="container">
     <ChildNav />
     <div id="dashboard">
-      <h1>ChildDashboard</h1>
+      <h1>
+        <span class="blue">{{ transactionStore.states.child.nickname }}</span>
+        - 나의 소비 통계
+      </h1>
       <Stats />
     </div>
     <Footer />
@@ -13,6 +16,13 @@
 import ChildNav from '@/components/common/ChildNav.vue';
 import Stats from '@/components/transactions/Stats.vue';
 import Footer from '@/components/common/Footer.vue';
+import { useTransactionStore } from '@/stores/transaction';
+import { useRoute } from 'vue-router';
+
+const transactionStore = useTransactionStore();
+const currentRoute = useRoute();
+
+transactionStore.fetchChild(currentRoute.params.id);
 </script>
 
 <style scoped>
@@ -35,5 +45,8 @@ h1 {
 }
 #container {
   background-color: #f7f9fb;
+}
+.blue {
+  color: #2456cc;
 }
 </style>

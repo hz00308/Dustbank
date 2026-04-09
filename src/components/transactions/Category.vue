@@ -1,7 +1,7 @@
 <template>
   <div id="my-chart">
     <div id="chart-title">카테고리별 지출</div>
-    <div id="chart-desc">어디에 가장 많이 썼을까요?</div>
+    <div id="chart-desc">어디에 가장 많이 썼을까요? - 금액 기준</div>
     <Doughnut :data="chartData" :options="chartOptions" />
   </div>
 </template>
