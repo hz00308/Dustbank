@@ -3,16 +3,16 @@
     <div
       v-for="(items, date) in groupedTransactions"
       :key="date"
-      class="date-group"
+      class="dateGroup"
     >
-      <h3 class="date-label">{{ date }}</h3>
+      <h3 class="date">{{ date }}</h3>
 
-      <div class="items-wrapper">
+      <div class="items">
         <TransactionItem v-for="item in items" :key="item.id" :item="item" />
       </div>
     </div>
 
-    <div v-if="Object.keys(groupedTransactions).length === 0" class="no-data">
+    <div v-if="Object.keys(groupedTransactions).length === 0" class="noData">
       거래 내역이 없습니다.
     </div>
   </div>
@@ -56,13 +56,13 @@ const groupedTransactions = computed(() => {
   gap: 32px;
 }
 
-.date-group {
+.dateGroup {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.date-label {
+.date {
   font-size: 15px;
   font-weight: 700;
   color: #8b95a1;
@@ -70,13 +70,13 @@ const groupedTransactions = computed(() => {
   padding-left: 8px;
 }
 
-.items-wrapper {
+.items {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.no-data {
+.noData {
   text-align: center;
   padding: 40px 0;
   color: #9aa3b2;
