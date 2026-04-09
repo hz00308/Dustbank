@@ -12,14 +12,14 @@
       "parentId": "momdad",
       "nickname": "길동이",
       "iconId": 2,
-      "balance": 86900
+      "balance": 29900
     },
     {
       "id": "kongsun",
       "parentId": "momdad",
       "nickname": "콩순이",
       "iconId": 3,
-      "balance": 85200
+      "balance": 84200
     }
   ],
   "transactions": [
@@ -817,6 +817,33 @@
       "date": "2026-04-09T16:00:00.000Z",
       "createdAt": "2026-04-09T16:10:00.000Z",
       "memo": "오늘의 젤리"
+    },
+    {
+      "childId": "gildong",
+      "parentId": "momdad",
+      "type": "E",
+      "category1": "W",
+      "category2": "간식",
+      "category3": null,
+      "amount": 5000,
+      "date": "2026-04-09T06:01:26.378Z",
+      "createdAt": "2026-04-09T06:01:26.378Z",
+      "memo": "탕후루",
+      "id": "biYd1kKgI34"
+    },
+    {
+      "childId": "kongsun",
+      "parentId": "momdad",
+      "type": "E",
+      "category1": "W",
+      "category2": "간식",
+      "category3": null,
+      "amount": 1000,
+      "date": "2026-04-09T06:03:08.775Z",
+      "createdAt": "2026-04-09T06:03:08.775Z",
+      "memo": "달고나",
+      "id": "hrV5Xqt9e_g"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
