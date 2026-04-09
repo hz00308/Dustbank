@@ -8,6 +8,7 @@ export const useTransactionStore = defineStore('transaction', () => {
 
   const states = reactive({
     child: null,
+    transaction: {},
     transactions: [],
   });
 
@@ -15,6 +16,17 @@ export const useTransactionStore = defineStore('transaction', () => {
     try {
       const response = await axios.get(`${BASE_CHILDREN}/${childId}`);
       states.child = response.data;
+      return response.data;
+    } catch (e) {
+      console.log(e);
+      return null;
+    }
+  };
+
+  const fetchTransaction = async (transactionId) => {
+    try {
+      const response = await axios.get(`${BASE_TRANSACTIONS}/${transactionId}`);
+      states.transaction = response.data;
       return response.data;
     } catch (e) {
       console.log(e);
@@ -35,6 +47,79 @@ export const useTransactionStore = defineStore('transaction', () => {
     }
   };
 
+  const editTransaction = async (prevAmount, transaction) => {
+    try {
+      const childId = transaction.childId;
+      await fetchChild(childId);
+      const child = states.child;
+      const transactionId = transaction.id;
+
+      const response = await axios.put(
+        `/api/transactions/${transactionId}`,
+        transaction,
+      );
+
+      const currentAmount = Number(transaction.amount);
+      const previousAmount = Number(prevAmount);
+
+      if (response.status === 201 || response.status === 200) {
+        let updatedBalance;
+        if (transaction.type === 'I') {
+          updatedBalance = child.balance - previousAmount + currentAmount;
+        } else {
+          updatedBalance = child.balance + previousAmount - currentAmount;
+        }
+
+        await axios.patch(`/api/children/${childId}`, {
+          balance: updatedBalance,
+        });
+        states.child = { ...child, balance: updatedBalance };
+        await fetchTransactions();
+        alert('거래 내역을 성공적으로 수정했습니다.');
+        return true;
+      } else {
+        alert('거래 내역 수정에 실패했습니다.');
+        return false;
+      }
+    } catch (error) {
+      console.error(error);
+      alert('거래 내역 수정에 실패했습니다.');
+      return false;
+    }
+  };
+
+  const deleteTransaction = async (prevAmount, transaction) => {
+    try {
+      const childId = transaction.childId;
+      const transactionId = transaction.id;
+      await fetchChild(childId);
+      const child = states.child;
+
+      const response = await axios.delete(`/api/transactions/${transactionId}`);
+      if (response.status === 200 || response.status === 204) {
+        const previousAmount = Number(prevAmount);
+        let updatedBalance;
+        if (transaction.type === 'I') {
+          updatedBalance = child.balance - previousAmount;
+        } else {
+          updatedBalance = child.balance + previousAmount;
+        }
+        await axios.patch(`/api/children/${childId}`, {
+          balance: updatedBalance,
+        });
+        alert('거래 내역을 성공적으로 삭제했습니다.');
+        return true;
+      } else {
+        alert('거래 내역 삭제에 실패했습니다.');
+        return false;
+      }
+    } catch (error) {
+      console.error(error);
+      alert('거래 내역 삭제에 실패했습니다.');
+      return false;
+    }
+  };
+
   const postIncome = async (transaction) => {
     try {
       const childId = transaction.childId;
@@ -52,12 +137,15 @@ export const useTransactionStore = defineStore('transaction', () => {
         states.child = { ...child, balance: updatedBalance };
         await fetchTransactions();
         alert('용돈을 성공적으로 보냈습니다.');
+        return true;
       } else {
         alert('용돈 보내기에 실패했습니다.');
+        return false;
       }
     } catch (error) {
       console.error(error);
       alert('용돈 보내기에 실패했습니다.');
+      return false;
     }
   };
 
@@ -190,10 +278,13 @@ export const useTransactionStore = defineStore('transaction', () => {
   return {
     states,
     fetchChild,
+    fetchTransaction,
     fetchTransactions,
     createExpenditure,
     resetData,
     postIncome,
+    editTransaction,
+    deleteTransaction,
     thisWeekTotalIncome,
     thisWeekTotalExpenditure,
     needWantCount,

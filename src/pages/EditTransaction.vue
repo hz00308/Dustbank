@@ -1,80 +1,7 @@
-<script setup>
-import { ref, watch } from 'vue';
-import { useTransactionStore } from '@/stores/transactionStore';
-
-const transactionStore = useTransactionStore();
-
-const emit = defineEmits(['close']);
-
-const props = defineProps({
-  transaction: Object,
-});
-
-const amount = ref('');
-const selectedCategory = ref('');
-const memo = ref('');
-const date = ref('');
-
-// 데이터 불러오기
-watch(
-  () => props.transaction,
-  (t) => {
-    if (!t) return;
-
-    amount.value = Number(t.amount).toLocaleString();
-    selectedCategory.value = t.category2;
-    memo.value = t.memo;
-    date.value = t.date?.slice(0, 10);
-  },
-  { immediate: true },
-);
-
-const selectCategory = (category) => {
-  selectedCategory.value = category;
-};
-
-// 금액 콤마 처리
-const formatAmount = (e) => {
-  let value = e.target.value;
-
-  value = value.replace(/[^0-9]/g, '');
-
-  if (value === '') {
-    amount.value = '';
-    return;
-  }
-
-  amount.value = Number(value).toLocaleString();
-};
-
-// 삭제
-const deleteTransaction = async () => {
-  await transactionStore.deleteTransaction(props.transaction.id);
-
-  emit('close');
-};
-
-// 수정
-const updateTransaction = async () => {
-  const newAmount = Number(amount.value.replace(/,/g, ''));
-
-  const updatedData = {
-    amount: newAmount,
-    category2: selectedCategory.value,
-    memo: memo.value,
-    date: date.value,
-  };
-
-  await transactionStore.updateTransaction(props.transaction.id, updatedData);
-
-  emit('close');
-};
-</script>
-
 <template>
   <div class="modal-overlay">
     <div class="modal">
-      <button class="close-btn" @click="$emit('close')">✕</button>
+      <button class="close-btn" @click="closeModal">✕</button>
 
       <h2 class="title">거래 정보 수정</h2>
 
@@ -83,82 +10,287 @@ const updateTransaction = async () => {
 
         <div class="amount-input">
           <span class="won">₩</span>
-
           <input
-            v-model="amount"
-            @input="formatAmount"
-            type="text"
-            placeholder="금액 입력"
+            v-model.number="transactionData.amount"
+            type="number"
+            placeholder="0"
           />
         </div>
       </div>
 
-      <div class="category-title">카테고리</div>
+      <!-- v-if로 카테고리 처리 -->
+      <div class="income-category" v-if="transactionData.type === 'I'">
+        <div class="category-title">카테고리</div>
+        <div class="category">
+          <button
+            :class="{ active: transactionData.category3 === '정기용돈' }"
+            @click="transactionData.category3 = '정기용돈'"
+          >
+            💵 정기용돈
+          </button>
 
-      <div class="category">
-        <button
-          :class="{ active: selectedCategory === '학용품' }"
-          @click="selectCategory('학용품')"
-        >
-          ✏️ 학용품
-        </button>
+          <button
+            :class="{ active: transactionData.category3 === '보너스' }"
+            @click="transactionData.category3 = '보너스'"
+          >
+            🎁 보너스
+          </button>
 
-        <button
-          :class="{ active: selectedCategory === '간식' }"
-          @click="selectCategory('간식')"
-        >
-          🍴 간식
-        </button>
-
-        <button
-          :class="{ active: selectedCategory === '교통비' }"
-          @click="selectCategory('교통비')"
-        >
-          🚌 교통비
-        </button>
-        <button
-          :class="{ active: selectedCategory === '용돈' }"
-          @click="selectCategory('용돈')"
-        >
-          💰 용돈
-        </button>
-
-        <button
-          :class="{ active: selectedCategory === '장난감' }"
-          @click="selectCategory('장난감')"
-        >
-          🧸 장난감
-        </button>
-        <button
-          :class="{ active: selectedCategory === '기타' }"
-          @click="selectCategory('기타')"
-        >
-          ••• 기타
-        </button>
+          <button
+            :class="{ active: transactionData.category3 === '세뱃돈' }"
+            @click="transactionData.category3 = '세뱃돈'"
+          >
+            💰 세뱃돈
+          </button>
+          <button
+            :class="{ active: transactionData.category3 === '기타' }"
+            @click="transactionData.category3 = '기타'"
+          >
+            ✨ 기타
+          </button>
+        </div>
       </div>
 
-      <div>날짜</div>
+      <div
+        class="expenditure-category"
+        v-else-if="transactionData.type === 'E'"
+      >
+        <div class="category-title">카테고리</div>
 
-      <input class="date-input" v-model="date" type="date" />
+        <div class="category">
+          <button
+            :class="{ active: transactionData.category2 === '식사' }"
+            @click="transactionData.category2 = '식사'"
+          >
+            🍚 식사
+          </button>
 
-      <div>메모</div>
+          <button
+            :class="{ active: transactionData.category2 === '간식' }"
+            @click="transactionData.category2 = '간식'"
+          >
+            🍪 간식
+          </button>
 
-      <textarea
-        class="memo-box"
-        v-model="memo"
-        placeholder="메모 입력"
-      ></textarea>
+          <button
+            :class="{ active: transactionData.category2 === '장난감' }"
+            @click="transactionData.category2 = '장난감'"
+          >
+            🧸 장난감
+          </button>
+          <button
+            :class="{ active: transactionData.category2 === '취미' }"
+            @click="transactionData.category2 = '취미'"
+          >
+            🎨 취미
+          </button>
+
+          <button
+            :class="{ active: transactionData.category2 === '학용품' }"
+            @click="transactionData.category2 = '학용품'"
+          >
+            ✏️ 학용품
+          </button>
+          <button
+            :class="{ active: transactionData.category2 === '기타' }"
+            @click="transactionData.category2 = '기타'"
+          >
+            ✨ 기타
+          </button>
+        </div>
+
+        <div class="expenditure-type">
+          <div class="title">꼭 필요한가요?</div>
+          <div class="toggle-wrap">
+            <button
+              type="button"
+              class="toggle-button"
+              :class="{ active: transactionData.category1 === 'N' }"
+              @click="transactionData.category1 = 'N'"
+            >
+              필요해요
+            </button>
+            <button
+              type="button"
+              class="toggle-button"
+              :class="{ active: transactionData.category1 === 'W' }"
+              @click="transactionData.category1 = 'W'"
+            >
+              원해요
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="dateTime">
+        <div class="date">
+          <p>날짜</p>
+          <input class="date-input" v-model="dateData.date" type="date" />
+        </div>
+        <div class="inputGroup">
+          <p>시간</p>
+          <div class="time" id="time">
+            <input
+              type="number"
+              id="hour"
+              min="0"
+              max="24"
+              placeholder="00"
+              v-model="dateData.hour"
+            />
+            <span> : </span>
+            <input
+              type="number"
+              id="minute"
+              min="0"
+              max="59"
+              placeholder="00"
+              v-model="dateData.minute"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="memo">
+        <p>메모</p>
+        <textarea
+          class="memo-box"
+          v-model="transactionData.memo"
+          placeholder="메모 입력"
+        >
+        </textarea>
+      </div>
 
       <div class="actions">
         <button class="delete" @click="deleteTransaction">삭제</button>
-
-        <button class="save" @click="updateTransaction">수정 완료</button>
+        <button class="save" @click="editTransaction">수정 완료</button>
       </div>
     </div>
   </div>
 </template>
 
+<script setup>
+import { onMounted, reactive } from 'vue';
+import { useTransactionStore } from '@/stores/transaction';
+import { useRoute, useRouter } from 'vue-router';
+
+const route = useRoute();
+const router = useRouter();
+const transactionId = route.params.id;
+const transactionStore = useTransactionStore();
+const emit = defineEmits(['close']);
+
+const transactionData = reactive({
+  id: '',
+  childId: '',
+  parentId: '',
+  type: '',
+  category1: null,
+  category2: null,
+  category3: null,
+  amount: 0,
+  date: '',
+  createdAt: '',
+  memo: '',
+});
+
+const dateData = reactive({
+  date: '',
+  hour: 0,
+  minute: 0,
+});
+
+let prevAmount = 0;
+
+// const formatAmount = (e) => {
+//   let value = e.target.value;
+
+//   value = value.replace(/[^0-9]/g, '');
+
+//   if (value === '') {
+//     amount.value = '';
+//     return;
+//   }
+
+//   transactionData.amount = Number(value).toLocaleString();
+// };
+
+onMounted(async () => {
+  await transactionStore.fetchTransaction(transactionId);
+  const transaction = transactionStore.states.transaction;
+  console.log(transaction);
+
+  prevAmount = transaction.amount;
+
+  transactionData.id = transaction.id;
+  transactionData.childId = transaction.childId;
+  transactionData.parentId = transaction.parentId;
+  transactionData.type = transaction.type;
+  transactionData.category1 = transaction.category1;
+  transactionData.category2 = transaction.category2;
+  transactionData.category3 = transaction.category3;
+  transactionData.amount = transaction.amount;
+  transactionData.date = transaction.date;
+  transactionData.createdAt = transaction.createdAt;
+  transactionData.memo = transaction.memo;
+
+  const dateObj = new Date(transaction.date);
+  const date = dateObj.toISOString().split('T')[0];
+  const hour = Number(dateObj.getHours());
+  const minute = Number(dateObj.getMinutes());
+
+  dateData.date = date;
+  dateData.hour = hour;
+  dateData.minute = minute;
+});
+const closeModal = () => {
+  emit('close');
+  router.back();
+};
+const formatDate = async () => {
+  const hour = String(dateData.hour).padStart(2, '0');
+  const minute = String(dateData.minute).padStart(2, '0');
+
+  if (!dateData.date) {
+    alert('날짜를 선택해주세요');
+    return;
+  }
+
+  const localDateTime = `${dateData.date}T${hour}:${minute}:00`;
+  const isoDate = new Date(localDateTime).toISOString();
+  transactionData.date = isoDate;
+  transactionData.createdAt = new Date().toISOString();
+};
+
+const editTransaction = async () => {
+  await formatDate();
+  const success = await transactionStore.editTransaction(
+    prevAmount,
+    transactionData,
+  );
+  if (success) {
+    emit('close');
+    router.back();
+  }
+};
+
+const deleteTransaction = async () => {
+  if (!confirm('정말로 삭제하시겠습니까?')) return;
+  const success = await transactionStore.deleteTransaction(
+    prevAmount,
+    transactionData,
+  );
+  if (success) {
+    emit('close');
+    router.back();
+  }
+};
+</script>
+
 <style>
+button {
+  cursor: pointer;
+}
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -247,14 +379,53 @@ const updateTransaction = async () => {
   color: #2563eb;
 }
 
+.dateTime {
+  display: flex;
+  justify-content: space-between;
+}
+
 .date-input {
   padding: 12px;
   border-radius: 12px;
   border: none;
   background: #f3f4f6;
+  width: 180px;
 }
 
+.date > p {
+  margin-bottom: 8px;
+}
+.inputGroup > p {
+  margin-bottom: 8px;
+}
+.inputGroup > .time {
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: #f3f4f6;
+  width: 180px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 15px;
+}
+
+.inputGroup > .time > input {
+  border: none;
+  width: 60px;
+  text-align: center;
+  outline: none;
+  box-sizing: border-box;
+  background-color: transparent;
+}
+.memo {
+  width: 100%;
+}
+.memo > p {
+  margin-bottom: 8px;
+}
 .memo-box {
+  width: 100%;
   height: 60px;
   resize: none;
   border-radius: 12px;
@@ -281,5 +452,39 @@ const updateTransaction = async () => {
   border: none;
   padding: 10px 20px;
   border-radius: 20px;
+}
+.category-title {
+  margin-bottom: 8px;
+}
+.toggle-wrap {
+  padding: 4px;
+  border-radius: 999px;
+  background: #f3f4f6;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+}
+
+.toggle-button {
+  min-height: 28px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #6d7f9b;
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.toggle-button.active {
+  background: #ffffff;
+  color: #4280f5;
+}
+
+.expenditure-type > .title {
+  margin: 8px 0;
 }
 </style>
