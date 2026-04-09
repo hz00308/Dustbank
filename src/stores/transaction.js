@@ -24,7 +24,9 @@ export const useTransactionStore = defineStore('transaction', () => {
 
   const fetchTransactions = async (childId) => {
     try {
-      const response = await axios.get(`${BASE_TRANSACTIONS}?childId=${childId}`);
+      const response = await axios.get(
+        `${BASE_TRANSACTIONS}?childId=${childId}`,
+      );
       states.transactions = response.data;
       return response.data;
     } catch (e) {
@@ -33,7 +35,39 @@ export const useTransactionStore = defineStore('transaction', () => {
     }
   };
 
-  const createExpenditure = async ({ childId, amount, category2, needType, memo }) => {
+  const postIncome = async (transaction) => {
+    try {
+      const childId = transaction.childId;
+      const amount = transaction.amount;
+      const child = states.child;
+
+      const response = await axios.post('/api/transactions', transaction);
+
+      if (response.status === 201 || response.status === 200) {
+        const updatedBalance = child.balance + amount;
+
+        await axios.patch(`/api/children/${childId}`, {
+          balance: updatedBalance,
+        });
+        states.child = { ...child, balance: updatedBalance };
+        await fetchTransactions();
+        alert('용돈을 성공적으로 보냈습니다.');
+      } else {
+        alert('용돈 보내기에 실패했습니다.');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('용돈 보내기에 실패했습니다.');
+    }
+  };
+
+  const createExpenditure = async ({
+    childId,
+    amount,
+    category2,
+    needType,
+    memo,
+  }) => {
     const child = await fetchChild(childId);
 
     if (!child) {
@@ -159,6 +193,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     fetchTransactions,
     createExpenditure,
     resetData,
+    postIncome,
     thisWeekTotalIncome,
     thisWeekTotalExpenditure,
     needWantCount,
