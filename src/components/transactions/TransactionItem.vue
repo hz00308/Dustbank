@@ -1,5 +1,5 @@
 <template>
-  <div class="transaction-item">
+  <div class="transaction-item" @click="editTrans(item.id)">
     <div class="left">
       <div class="icon-box">
         {{ item.type === 'E' ? '💸' : '💰' }}
@@ -23,11 +23,19 @@
 </template>
 
 <script setup>
+import { useRouter } from 'vue-router';
+const router = useRouter();
+
 const props = defineProps(['item']);
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
   return date.toLocaleDateString('ko-KR', { hour: '2-digit' }); // 시간까지 표시하려면 { hour: '2-digit' } 옵션이 필요함.
+};
+
+const editTrans = (id) => {
+  console.log('clicked');
+  router.push({ name: 'EditTransaction', params: { tid: id } });
 };
 </script>
 

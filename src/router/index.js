@@ -35,6 +35,13 @@ const router = createRouter({
       path: '/parent/children/:id/transactions',
       name: 'MyChildTransactions',
       component: MyChildTransactions,
+      children: [
+        {
+          path: ':tid/edit',
+          name: 'EditTransaction',
+          component: EditTransaction,
+        },
+      ],
     },
     { path: '/child/:id', name: 'ChildDashboard', component: ChildDashboard },
     {
@@ -46,11 +53,13 @@ const router = createRouter({
       path: '/child/:id/transactions',
       name: 'ChildTransactions',
       component: ChildTransactions,
-    },
-    {
-      path: '/transaction/:id/edit',
-      name: 'EditTransaction',
-      component: EditTransaction,
+      children: [
+        {
+          path: ':tid/edit',
+          name: 'EditTransaction',
+          component: EditTransaction,
+        },
+      ],
     },
     { path: '/:id', name: 'Family', component: Family },
   ],
