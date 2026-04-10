@@ -20,7 +20,7 @@
             <p>금액 입력</p>
             <div class="price">
               <span class="won">&#8361</span>
-              <input type="number" id="amount" placeholder="0" pattern="[0-9]*" v-model.number="transactionData.amount"/>
+              <input type="number" id="amount" placeholder="0" pattern="[0-9]*" v-model.number="transactionData.amount" min="0"/>
             </div>
             <div class="priceBtn">
               <div class="btn" @click="addNum(100)"><p>+ 100</p></div>
@@ -106,10 +106,7 @@
 import ParentNav from '@/components/common/ParentNav.vue';
 import { useTransactionStore } from '@/stores/transaction';
 import { useRoute } from 'vue-router';
-import {onMounted, ref, reactive} from 'vue';
-
-const amount = ref(0);
-
+import {onMounted, reactive} from 'vue';
 
 const getIconPath = (iconId) => {
   return new URL(`../../assets/icons/icon${iconId}.png`, import.meta.url).href;
@@ -117,7 +114,8 @@ const getIconPath = (iconId) => {
 
 const addNum = (num) => { 
   // console.log(input);
-  transactionData.amount += num;
+  const currentAmount = Number(transactionData.amount) || 0;
+  transactionData.amount = currentAmount + num;
 };
 
 const route = useRoute();
@@ -151,7 +149,7 @@ const dateData = reactive({
   minute: 0
 });
 
-onMounted(async () => {
+const initData = async () => {
   await transactionStore.fetchChild(childId);
   await transactionStore.fetchTransactions(childId);
   const child = transactionStore.states.child;
@@ -164,36 +162,52 @@ onMounted(async () => {
 
   transactionData.childId = child.id;
   transactionData.parentId = child.parentId;
-});
+};
+initData();
 
 const formatDate = async () => {
   const hour = String(dateData.hour).padStart(2,'0');
   const minute = String(dateData.minute).padStart(2,'0');
 
   if(!dateData.date) {
-    alert("날짜를 선택해주세요");
-    return;
+    alert("날짜를 입력해주세요.");
+    return false;
   }
 
   const localDateTime = `${dateData.date}T${hour}:${minute}:00`;
   const isoDate = new Date(localDateTime).toISOString();
   transactionData.date = isoDate;
   transactionData.createdAt = new Date().toISOString();
+  return true;
+}
+
+const isValid = () => {
+  if(!transactionData.amount || transactionData.amount <=0 ) {
+    alert("보낼 금액을 정확히 입력해주세요.");
+    return false;
+  }
+  if(!transactionData.category3) {
+    alert("카테고리를 선택해주세요.");
+    return false;
+  }
+  return true;
 }
 
 const submitForm = async () => {
-  formatDate();
-  const success = await transactionStore.postIncome(transactionData);
-  if(success) {
-    transactionData.amount = 0;
-    transactionData.memo = "";
-    transactionData.category = "정기용돈";
-    transactionData.date = "";
-    transactionData.createdAt = "";
+  const isDateValid = await formatDate();
+  if(isValid() && isDateValid){
+    const success = await transactionStore.createIncome(transactionData);
+    if(success) {
+      transactionData.amount = 0;
+      transactionData.memo = "";
+      transactionData.category = "정기용돈";
+      transactionData.date = "";
+      transactionData.createdAt = "";
 
-    dateData.date = new Date().toISOString().split('T')[0];
-    dateData.hour = 0;
-    dateData.minute = 0;
+      dateData.date = new Date().toISOString().split('T')[0];
+      dateData.hour = 0;
+      dateData.minute = 0;
+    }
   }
 }
 </script>
