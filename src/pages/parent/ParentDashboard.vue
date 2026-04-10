@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <ParentNav />
     <div id="dashboard">
       <div>
@@ -29,9 +29,14 @@ userStore.fetchUserList();
 </script>
 
 <style scoped>
-#dashboard {
+.container {
   background-color: #f7f9fb;
-  padding: 4em;
+}
+#dashboard {
+  overflow-x: auto;
+  white-space: nowrap;
+  background-color: #f7f9fb;
+  padding: 4em 8em;
   display: flex;
   flex-direction: column;
   gap: 50px;
