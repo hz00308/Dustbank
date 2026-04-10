@@ -41,7 +41,11 @@
             >
               + {{ value.toLocaleString('ko-KR') }}
             </button>
-            <button type="button" class="pill-button primary" @click="resetAmount">
+            <button
+              type="button"
+              class="pill-button primary"
+              @click="resetAmount"
+            >
               초기화
             </button>
           </div>
@@ -118,17 +122,16 @@
           <p v-if="statusMessage" class="status-text" :class="statusType">
             {{ statusMessage }}
           </p>
-          <button type="button" class="submit-button" @click="submitExpenditure">
+          <button
+            type="button"
+            class="submit-button"
+            @click="submitExpenditure"
+          >
             지출 기록하기
           </button>
-          <button type="button" class="cancel-button">취소</button>
         </div>
       </aside>
     </section>
-
-    <footer class="footer-quote">
-      "계획적인 소비는 미래의 나를 위한 가장 큰 투자입니다."
-    </footer>
   </main>
 </template>
 
@@ -152,8 +155,8 @@ const router = useRouter();
 const transactionStore = useTransactionStore();
 
 const quickAmounts = [100, 1000, 2000, 5000, 10000];
-const currentAmount = ref(5500);
-const directInput = ref('5500');
+const currentAmount = ref(0);
+const directInput = ref('0');
 const selectedCategory = ref('장난감');
 const selectedNeedType = ref('need');
 const memo = ref('');
@@ -163,7 +166,9 @@ const amountEditRef = ref(null);
 const isEditingAmount = ref(false);
 const amountEditInput = ref('5500');
 
-const formattedAmount = computed(() => currentAmount.value.toLocaleString('ko-KR'));
+const formattedAmount = computed(() =>
+  currentAmount.value.toLocaleString('ko-KR'),
+);
 const currentDateLabel = computed(() => {
   const now = new Date();
   const year = now.getFullYear();
@@ -246,7 +251,8 @@ async function submitExpenditure() {
     router.push({ name: 'ChildTransactions', params: { id: childId } });
   } catch (error) {
     statusMessage.value =
-      error?.message || '지출 저장 중 문제가 생겼습니다. 잠시 후 다시 시도해주세요.';
+      error?.message ||
+      '지출 저장 중 문제가 생겼습니다. 잠시 후 다시 시도해주세요.';
     statusType.value = 'error';
   }
 }
@@ -255,13 +261,13 @@ async function submitExpenditure() {
 <style scoped>
 .expenditure-page {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.9) 0%, rgba(242, 246, 255, 0.94) 45%, #edf2fb 100%);
+  padding-bottom: 30px;
+  background-color: #f7f9fd;
   color: #24324f;
 }
 
 .hero {
-  padding: 106px 20px 120px;
+  padding: 106px 20px 30px;
   text-align: center;
 }
 
@@ -329,7 +335,9 @@ async function submitExpenditure() {
   color: #345ea7;
   text-align: center;
   background: #f4f7fc;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .direct-input:focus {
