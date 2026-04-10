@@ -12,9 +12,8 @@
         <div class="gray">티끌저금통과 함께 자녀 용돈을 손쉽게 관리하세요.</div>
       </div>
 
-      <ChildList />
+      <ChildList class="child-list" />
     </div>
-    <Footer />
   </div>
 </template>
 
@@ -33,14 +32,16 @@ userStore.fetchUserList();
   background-color: #f7f9fb;
 }
 #dashboard {
-  overflow-x: auto;
-  white-space: nowrap;
   background-color: #f7f9fb;
   padding: 4em 8em;
   display: flex;
   flex-direction: column;
   gap: 50px;
   height: calc(100vh-148px);
+}
+.child-list {
+  overflow-x: auto;
+  white-space: nowrap;
 }
 .blue {
   color: #2456cc;
