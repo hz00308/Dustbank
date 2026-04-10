@@ -120,7 +120,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     }
   };
 
-  const postIncome = async (transaction) => {
+  const createIncome = async (transaction) => {
     try {
       const childId = transaction.childId;
       const amount = transaction.amount;
@@ -282,7 +282,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     fetchTransactions,
     createExpenditure,
     resetData,
-    postIncome,
+    createIncome,
     editTransaction,
     deleteTransaction,
     thisWeekTotalIncome,

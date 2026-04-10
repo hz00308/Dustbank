@@ -1,6 +1,8 @@
 <template>
   <header class="header">
-    <div class="logo">티끌저금통</div>
+    <router-link :to="{ name: 'Family', params: { id: 'momdad' } }" class="logo"
+      >티끌저금통</router-link
+    >
 
     <nav class="nav">
       <router-link :to="{ name: 'Family', params: { id: 'momdad' } }"
@@ -10,12 +12,18 @@
     </nav>
 
     <div class="logout">
-      <button class="logout-btn">⎋</button>
+      <img src="@/assets/images/power.png" class="logout-btn" @click="logout" />
     </div>
   </header>
 </template>
 
-<script setup></script>
+<script setup>
+import { useRouter } from 'vue-router';
+const router = useRouter();
+const logout = () => {
+  router.push('/');
+};
+</script>
 
 <style scoped>
 .header {
@@ -28,11 +36,14 @@
   background: white;
   border-bottom: 1px solid #e5e7eb;
   width: 100%;
+  z-index: 10;
 }
 
 .logo {
   font-size: 22px;
   font-weight: 700;
+  text-decoration: none;
+  color: #2563eb;
 }
 
 .nav {

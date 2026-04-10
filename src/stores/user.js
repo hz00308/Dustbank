@@ -3,7 +3,7 @@ import axios from 'axios';
 import { reactive } from 'vue';
 
 export const useUserStore = defineStore('user', () => {
-  const protectedChildIds = ['gildong', 'kongsun'];
+  // const protectedChildIds = ['gildong', 'kongsun'];
   const states = reactive({
     childList: [],
     parentList: [],
@@ -21,10 +21,10 @@ export const useUserStore = defineStore('user', () => {
         (responseParent.status === 200 && responseChild.status === 200) ||
         (responseParent.status === 304 && responseChild.status === 304)
       ) {
-        console.log('Parent------');
-        console.log(responseParent);
-        console.log('Children-----');
-        console.log(responseChild);
+        // console.log('Parent------');
+        // console.log(responseParent);
+        // console.log('Children-----');
+        // console.log(responseChild);
         states.childList = responseChild.data;
         states.parentList = responseParent.data;
       } else {
@@ -42,7 +42,9 @@ export const useUserStore = defineStore('user', () => {
       throw new Error('자녀 이름을 입력해주세요.');
     }
 
-    const childId = `${trimmedNickname}-${Date.now()}`.replace(/\s+/g, '').toLowerCase();
+    const childId = `${trimmedNickname}-${Date.now()}`
+      .replace(/\s+/g, '')
+      .toLowerCase();
     const newChild = {
       id: childId,
       parentId,
@@ -66,13 +68,15 @@ export const useUserStore = defineStore('user', () => {
       throw new Error('삭제할 자녀 정보가 올바르지 않습니다.');
     }
 
-    if (protectedChildIds.includes(childId)) {
-      throw new Error('길동이와 콩순이는 삭제할 수 없습니다.');
-    }
+    // if (protectedChildIds.includes(childId)) {
+    //   throw new Error('길동이와 콩순이는 삭제할 수 없습니다.');
+    // }
 
-    const transactionResponse = await axios.get(`${BASETransaction}?childId=${childId}`);
+    const transactionResponse = await axios.get(
+      `${BASETransaction}?childId=${childId}`,
+    );
     const deleteTransactions = transactionResponse.data.map((transaction) =>
-      axios.delete(`${BASETransaction}/${transaction.id}`)
+      axios.delete(`${BASETransaction}/${transaction.id}`),
     );
 
     await Promise.all(deleteTransactions);
@@ -88,5 +92,6 @@ export const useUserStore = defineStore('user', () => {
 
   console.log('states-----');
   console.log(states);
-  return { states, fetchUserList, createChild, deleteChild, protectedChildIds };
+  // return { states, fetchUserList, createChild, deleteChild, protectedChildIds };
+  return { states, fetchUserList, createChild, deleteChild };
 });
