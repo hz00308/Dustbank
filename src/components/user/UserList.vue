@@ -48,6 +48,7 @@ const addChild = () => {
   background-color: white;
   width: 168px;
   height: 168px;
+  min-width: 168px;
   border-radius: 50%;
   border-style: dashed;
   border-color: rgb(201, 201, 201);

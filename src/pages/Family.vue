@@ -70,6 +70,8 @@ import UserList from '@/components/user/UserList.vue';
 .userGroup {
   width: 100%;
   margin-bottom: 50px;
+  overflow-x: auto;
+  white-space: nowrap;
 }
 
 .msg {
