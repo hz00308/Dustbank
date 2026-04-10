@@ -32,12 +32,12 @@
     </section>
 
     <section class="feature-section" aria-label="서비스 소개">
-      <article class="feature-card">
+      <!-- <article class="feature-card">
         <div class="feature-icon">
           <span class="icon-circle">🛡</span>
         </div>
         <h2>안전한 자산 관리</h2>
-      </article>
+      </article> -->
 
       <article class="feature-card">
         <div class="feature-icon">
@@ -108,12 +108,12 @@ function goNext() {
   font-size: clamp(2.2rem, 5vw, 4.25rem);
   line-height: 1.18;
   letter-spacing: -0.05em;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .hero-title span {
   color: #4d72f8;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 .hero-visual {
@@ -172,7 +172,7 @@ function goNext() {
   padding-top: 46px;
   border-top: 1px solid #ebeef4;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 

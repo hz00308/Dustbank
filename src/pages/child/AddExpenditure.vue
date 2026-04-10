@@ -5,18 +5,28 @@
     <section class="hero">
       <p class="hero-label">NEW TRANSACTION</p>
       <h1 class="hero-title">얼마를 썼나요?</h1>
-  
     </section>
 
     <section class="content-grid">
       <article class="amount-card">
         <p class="amount-caption">CURRENT AMOUNT</p>
+
         <div class="amount-display">
-          <Transition name="amount-change" mode="out-in">
-            <strong :key="amountAnimationKey" class="amount-number">
-              {{ formattedAmount }}
-            </strong>
-          </Transition>
+          <template v-if="isEditingAmount">
+            <input
+              ref="amountEditRef"
+              v-model="amountEditInput"
+              type="text"
+              inputmode="numeric"
+              class="amount-edit-input"
+              @input="handleAmountEditInput"
+              @blur="finishAmountEdit"
+              @keyup.enter="finishAmountEdit"
+            />
+          </template>
+          <strong v-else class="amount-number" @click="startAmountEdit">
+            {{ formattedAmount }}
+          </strong>
         </div>
 
         <div class="quick-amount-panel">
@@ -31,7 +41,11 @@
             >
               + {{ value.toLocaleString('ko-KR') }}
             </button>
-            <button type="button" class="pill-button primary" @click="resetAmount">
+            <button
+              type="button"
+              class="pill-button primary"
+              @click="resetAmount"
+            >
               초기화
             </button>
           </div>
@@ -108,17 +122,16 @@
           <p v-if="statusMessage" class="status-text" :class="statusType">
             {{ statusMessage }}
           </p>
-          <button type="button" class="submit-button" @click="submitExpenditure">
+          <button
+            type="button"
+            class="submit-button"
+            @click="submitExpenditure"
+          >
             지출 기록하기
           </button>
-          <button type="button" class="cancel-button">취소</button>
         </div>
       </aside>
     </section>
-
-    <footer class="footer-quote">
-      "계획적인 소비는 미래의 나를 위한 가장 큰 투자입니다."
-    </footer>
   </main>
 </template>
 
@@ -141,16 +154,21 @@ const route = useRoute();
 const router = useRouter();
 const transactionStore = useTransactionStore();
 
-const quickAmounts = [500, 1000, 2000, 5000, 10000];
-const currentAmount = ref(5500);
-const amountAnimationKey = ref(0);
+const quickAmounts = [100, 1000, 2000, 5000, 10000];
+const currentAmount = ref(0);
+const directInput = ref('0');
 const selectedCategory = ref('장난감');
 const selectedNeedType = ref('need');
 const memo = ref('');
 const statusMessage = ref('');
 const statusType = ref('');
+const amountEditRef = ref(null);
+const isEditingAmount = ref(false);
+const amountEditInput = ref('5500');
 
-const formattedAmount = computed(() => currentAmount.value.toLocaleString('ko-KR'));
+const formattedAmount = computed(() =>
+  currentAmount.value.toLocaleString('ko-KR'),
+);
 const currentDateLabel = computed(() => {
   const now = new Date();
   const year = now.getFullYear();
@@ -164,12 +182,45 @@ const currentDateLabel = computed(() => {
 
 function updateAmount(value) {
   currentAmount.value += value;
-  amountAnimationKey.value += 1;
+  directInput.value = String(currentAmount.value);
+  amountEditInput.value = String(currentAmount.value);
 }
 
 function resetAmount() {
   currentAmount.value = 0;
-  amountAnimationKey.value += 1;
+  directInput.value = '0';
+  amountEditInput.value = '0';
+}
+
+function startAmountEdit() {
+  isEditingAmount.value = true;
+  amountEditInput.value = String(currentAmount.value);
+
+  requestAnimationFrame(() => {
+    if (amountEditRef.value) {
+      amountEditRef.value.focus();
+      amountEditRef.value.select();
+    }
+  });
+}
+
+function handleAmountEditInput(e) {
+  const value = e.target.value.replace(/[^0-9]/g, '');
+  amountEditInput.value = value;
+  currentAmount.value = parseInt(value) || 0;
+  directInput.value = value || '0';
+}
+
+function finishAmountEdit() {
+  if (!isEditingAmount.value) {
+    return;
+  }
+
+  const normalizedValue = amountEditInput.value.replace(/[^0-9]/g, '');
+  currentAmount.value = parseInt(normalizedValue) || 0;
+  directInput.value = normalizedValue || '0';
+  amountEditInput.value = normalizedValue || '0';
+  isEditingAmount.value = false;
 }
 
 async function submitExpenditure() {
@@ -200,7 +251,8 @@ async function submitExpenditure() {
     router.push({ name: 'ChildTransactions', params: { id: childId } });
   } catch (error) {
     statusMessage.value =
-      error?.message || '지출 저장 중 문제가 생겼습니다. 잠시 후 다시 시도해주세요.';
+      error?.message ||
+      '지출 저장 중 문제가 생겼습니다. 잠시 후 다시 시도해주세요.';
     statusType.value = 'error';
   }
 }
@@ -209,13 +261,13 @@ async function submitExpenditure() {
 <style scoped>
 .expenditure-page {
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top, rgba(255, 255, 255, 0.9) 0%, rgba(242, 246, 255, 0.94) 45%, #edf2fb 100%);
+  padding-bottom: 30px;
+  background-color: #f7f9fd;
   color: #24324f;
 }
 
 .hero {
-  padding: 30px 20px 28px;
+  padding: 106px 20px 30px;
   text-align: center;
 }
 
@@ -265,6 +317,37 @@ async function submitExpenditure() {
   font-size: 0.7rem;
   font-weight: 700;
   letter-spacing: 0.08em;
+  margin-bottom: 28px;
+}
+
+.direct-input-section {
+  margin-bottom: 28px;
+}
+
+.direct-input {
+  width: 100%;
+  height: 48px;
+  border: 2px solid #e3e9f3;
+  border-radius: 18px;
+  padding: 0 18px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #345ea7;
+  text-align: center;
+  background: #f4f7fc;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.direct-input:focus {
+  outline: none;
+  border-color: #4b85f7;
+  box-shadow: 0 0 0 3px rgba(75, 133, 247, 0.16);
+}
+
+.direct-input::placeholder {
+  color: #b1bdd2;
 }
 
 .amount-number {
@@ -274,6 +357,25 @@ async function submitExpenditure() {
   font-size: clamp(3rem, 5vw, 4.4rem);
   font-weight: 800;
   letter-spacing: -0.04em;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.amount-edit-input {
+  width: min(100%, 360px);
+  border: none;
+  border-bottom: 3px solid #4b85f7;
+  background: transparent;
+  color: #345ea7;
+  font-size: clamp(2.6rem, 4.8vw, 4.1rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-align: center;
+  outline: none;
+}
+
+.amount-number:hover {
+  opacity: 0.8;
 }
 
 .amount-display {
@@ -281,6 +383,8 @@ async function submitExpenditure() {
   display: flex;
   justify-content: center;
   overflow: hidden;
+  min-height: 5rem;
+  align-items: center;
 }
 
 .quick-amount-panel {
@@ -312,6 +416,10 @@ async function submitExpenditure() {
   font-size: 1rem;
   font-weight: 700;
   box-shadow: 0 3px 10px rgba(182, 194, 218, 0.14);
+  cursor: pointer;
+  transition:
+    box-shadow 0.18s ease,
+    background-color 0.18s ease;
 }
 
 .pill-button.primary {
@@ -319,18 +427,6 @@ async function submitExpenditure() {
   background: #355fa8;
   color: #ffffff;
   box-shadow: 0 10px 20px rgba(59, 99, 173, 0.24);
-}
-
-.pill-button {
-  cursor: pointer;
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease,
-    background-color 0.18s ease;
-}
-
-.pill-button:hover {
-  transform: translateY(-1px);
 }
 
 .input-row {
@@ -422,8 +518,7 @@ async function submitExpenditure() {
   transition:
     background-color 0.2s ease,
     box-shadow 0.2s ease,
-    color 0.2s ease,
-    transform 0.2s ease;
+    color 0.2s ease;
   cursor: pointer;
 }
 
@@ -433,11 +528,6 @@ async function submitExpenditure() {
     inset 0 0 0 2px #4b85f7,
     0 12px 18px rgba(85, 125, 208, 0.14);
   color: #3e74e8;
-  animation: category-bounce 0.34s ease;
-}
-
-.category-button:hover {
-  transform: translateY(-1px);
 }
 
 .category-icon {
@@ -460,14 +550,14 @@ async function submitExpenditure() {
   background: #fff9e8;
 }
 
-.category-icon.blue {
-  color: #ffffff;
-  background: #5b95ff;
+.category-icon.beige {
+  color: #d4a574;
+  background: #fef5f0;
 }
 
-.category-icon.purple {
-  color: #8f50ff;
-  background: #f7f0ff;
+.category-icon.sky {
+  color: #5dade2;
+  background: #eaf4fb;
 }
 
 .category-icon.green {
@@ -483,37 +573,6 @@ async function submitExpenditure() {
 .category-button.active .category-icon {
   background: #4b85f7;
   color: #ffffff;
-}
-
-@keyframes category-bounce {
-  0% {
-    transform: scale(0.94);
-  }
-
-  55% {
-    transform: scale(1.06);
-  }
-
-  100% {
-    transform: scale(1);
-  }
-}
-
-.amount-change-enter-active,
-.amount-change-leave-active {
-  transition:
-    transform 0.22s ease,
-    opacity 0.22s ease;
-}
-
-.amount-change-enter-from {
-  opacity: 0;
-  transform: translateY(10px) scale(0.98);
-}
-
-.amount-change-leave-to {
-  opacity: 0;
-  transform: translateY(-10px) scale(1.02);
 }
 
 .category-name {

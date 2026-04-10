@@ -15,9 +15,11 @@
   background: white;
   border-bottom: 1px solid #e5e7eb;
   color: #2456cc;
+  z-index: 10;
 }
 .logo {
   font-size: 22px;
   font-weight: 700;
+  margin-left: 24px;
 }
 </style>
