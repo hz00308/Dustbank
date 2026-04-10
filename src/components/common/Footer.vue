@@ -1,6 +1,6 @@
 <template>
   <footer class="footer">
-    <div class="footer-bottom" :class="align">
+    <div class="footer-bottom">
       {{ text }}
     </div>
   </footer>
@@ -12,10 +12,6 @@ defineProps({
     type: String,
     default: "© 2026 KB IT's Your Life 24회차 싹쓰리. All rights reserved.",
   },
-  align: {
-    type: String,
-    default: 'center',
-  },
 });
 </script>
 
@@ -25,7 +21,7 @@ defineProps({
   width: 100%;
   height: 80px;
   background: #f0f4f7;
-  padding: 40px 0;
+  padding: 32px 0;
 }
 
 .footer-bottom {
@@ -33,5 +29,6 @@ defineProps({
   margin: 0 auto;
   font-size: 12px;
   color: #9ca3af;
+  text-align: right;
 }
 </style>
