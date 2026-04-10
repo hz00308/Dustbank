@@ -10,7 +10,7 @@
           <h1>
             우리
             <span class="blue">{{
-              transactionStore.states.child?.nickname
+              transactionStore.states.child.nickname
             }}</span
             >의 거래 내역
           </h1>

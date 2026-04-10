@@ -1,7 +1,7 @@
 <template>
   <div id="child-list">
     <ChildItem
-      v-for="child in childListStore.states.childList"
+      v-for="child in userStore.states.childList"
       :key="child.id"
       :id="child.id"
       :nickname="child.nickname"
@@ -22,11 +22,10 @@
 
 <script setup>
 import ChildItem from './ChildItem.vue';
-import { useChildListStore } from '@/stores/child';
-import { computed } from 'vue';
+import { useUserStore } from '@/stores/user';
 
-const childListStore = useChildListStore();
-childListStore.fetchChildList();
+const userStore = useUserStore();
+userStore.fetchUserList();
 </script>
 
 <style scoped>

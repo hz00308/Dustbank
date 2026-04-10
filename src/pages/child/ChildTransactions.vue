@@ -9,7 +9,7 @@
         <div class="top-content">
           <h1>
             <span class="blue">{{
-              transactionStore.states.child?.nickname
+              transactionStore.states.child.nickname
             }}</span>
             - 나의 거래 내역
           </h1>

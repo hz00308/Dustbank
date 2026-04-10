@@ -7,7 +7,7 @@ export const useTransactionStore = defineStore('transaction', () => {
   const BASE_TRANSACTIONS = '/api/transactions';
 
   const states = reactive({
-    child: null,
+    child: {},
     transaction: {},
     transactions: [],
   });
