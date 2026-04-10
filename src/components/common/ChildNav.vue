@@ -23,7 +23,11 @@
     </nav>
 
     <div class="logout">
-      <img src="@/assets/images/power.png" class="logout-btn" @click="logout" />
+      <img
+        src="@/assets/images/logout.png"
+        class="logout-btn"
+        @click="logout"
+      />
     </div>
   </header>
 </template>
@@ -80,12 +84,19 @@ const logout = () => {
   padding-bottom: 4px;
 }
 
-.logout-btn {
+.logout {
   border: 1px solid #d1d5db;
   background: white;
   border-radius: 50%;
   width: 36px;
   height: 36px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logout-btn {
+  width: 20px;
 }
 </style>
