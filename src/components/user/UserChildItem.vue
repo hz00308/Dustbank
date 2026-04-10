@@ -1,5 +1,15 @@
 <template>
   <li>
+    <img
+      src="@/assets/images/X.png"
+      alt="X"
+      type="button"
+      class="delete-btn"
+      :disabled="isDeleting"
+      @click="handleDelete"
+    />
+
+    <!--
     <button
       v-if="canDelete"
       type="button"
@@ -9,12 +19,13 @@
     >
       x
     </button>
+    -->
 
     <router-link
       class="child-link"
       :to="{ name: 'ChildDashboard', params: { id: child.id } }"
     >
-      <div class="selectedImg">
+      <div class="imgBox">
         <img :src="getIconPath(child.iconId)" />
       </div>
       <p class="nickname">{{ child.nickname }}</p>
@@ -34,18 +45,18 @@ const props = defineProps({
   child: { Type: Object, required: true },
 });
 
-const canDelete = computed(
-  () => !userStore.protectedChildIds.includes(props.child.id)
-);
+// const canDelete = computed(
+//   () => !userStore.protectedChildIds.includes(props.child.id)
+// );
 
 const handleDelete = async () => {
-  if (!canDelete.value) {
-    window.alert('길동이와 콩순이는 삭제할 수 없습니다.');
-    return;
-  }
+  // if (!canDelete.value) {
+  //   window.alert('길동이와 콩순이는 삭제할 수 없습니다.');
+  //   return;
+  // }
 
   const confirmed = window.confirm(
-    `"${props.child.nickname}" 자녀를 정말 삭제하시겠습니까?\n삭제하면 관련 정보가 유실되며 되돌릴 수 없습니다.`
+    `"${props.child.nickname}" 자녀를 정말 삭제하시겠습니까?\n삭제하면 관련 정보가 유실되며 되돌릴 수 없습니다.`,
   );
 
   if (!confirmed) {
@@ -88,8 +99,8 @@ li {
 }
 .delete-btn {
   position: absolute;
-  top: 8px;
-  right: 2px;
+  top: 20px;
+  right: 5px;
   z-index: 2;
   width: 34px;
   height: 34px;
@@ -103,24 +114,24 @@ li {
   box-shadow: 0 8px 18px rgba(42, 52, 70, 0.14);
   cursor: pointer;
 }
+
 .delete-btn:disabled {
   cursor: wait;
   opacity: 0.7;
 }
-.selectedImg {
+.imgBox {
   width: 168px;
   height: 168px;
   border-radius: 50%;
-  border: 3px solid black;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.3);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 0;
 }
-.selectedImg > img {
+.imgBox > img {
   width: 152px;
   height: 152px;
-  background-color: rgb(255, 218, 238);
   border-radius: 50%;
   margin: 0;
 }

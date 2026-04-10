@@ -66,7 +66,7 @@ const errorMessage = ref('');
 
 const childIcons = [1, 2, 3, 4].map((id) => ({
   id,
-  src: new URL(`../../assets/icons/icon${id}.png`, import.meta.url).href,
+  src: new URL(`../../assets/icons2/icon${id}.png`, import.meta.url).href,
 }));
 
 const parentId = computed(() => String(route.query.parentId || 'momdad'));
@@ -107,9 +107,7 @@ const submitChild = async () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background:
-    radial-gradient(circle at top, rgba(103, 156, 255, 0.16), transparent 32%),
-    linear-gradient(135deg, #edf2f8 0%, #dfe5ed 100%);
+  background-color: #f7f9fb;
 }
 
 .card {
@@ -204,10 +202,6 @@ const submitChild = async () => {
   border-radius: 50%;
   background-color: #f1f4f8;
   cursor: pointer;
-  transition:
-    transform 0.18s ease,
-    box-shadow 0.18s ease,
-    background-color 0.18s ease;
 }
 
 .icon-button img {
@@ -221,7 +215,6 @@ const submitChild = async () => {
   box-shadow:
     0 0 0 5px #e9f1ff,
     0 0 0 10px rgba(94, 156, 255, 0.35);
-  transform: translateY(-2px);
 }
 
 .message {
