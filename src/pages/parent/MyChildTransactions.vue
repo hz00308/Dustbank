@@ -51,7 +51,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted, onUpdated } from 'vue';
 import { useRoute } from 'vue-router';
 import TransactionList from '@/components/transactions/TransactionList.vue';
 import { useTransactionStore } from '@/stores/transaction';
@@ -80,6 +80,10 @@ onMounted(() => {
 
 onUnmounted(() => {
   transactionStore.resetData();
+});
+
+const fetchedTransactions = computed(() => {
+  transactionStore.fetchedTransactions();
 });
 </script>
 

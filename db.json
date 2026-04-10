@@ -19,7 +19,7 @@
       "parentId": "momdad",
       "nickname": "콩순이",
       "iconId": 3,
-      "balance": 66200
+      "balance": 65200
     }
   ],
   "transactions": [
@@ -777,8 +777,8 @@
       "category1": "W",
       "category2": "취미",
       "amount": 500,
-      "date": "2026-04-08T16:00:00.000Z",
-      "createdAt": "2026-04-08T16:02:00.000Z",
+      "date": "2026-04-07T16:00:00.000Z",
+      "createdAt": "2026-04-10T02:28:22.409Z",
       "memo": "문방구 오락기 한 판"
     },
     {
@@ -790,8 +790,8 @@
       "category2": null,
       "category3": "보너스",
       "amount": 5000,
-      "date": "2026-04-08T18:00:00.000Z",
-      "createdAt": "2026-04-08T18:30:00.000Z",
+      "date": "2026-04-07T18:00:00.000Z",
+      "createdAt": "2026-04-10T02:28:36.561Z",
       "memo": "시험 공부 열심히 해서 받음"
     },
     {
@@ -802,8 +802,8 @@
       "category1": "W",
       "category2": "간식",
       "amount": 1400,
-      "date": "2026-04-09T15:00:00.000Z",
-      "createdAt": "2026-04-09T15:45:00.000Z",
+      "date": "2026-04-08T15:00:00.000Z",
+      "createdAt": "2026-04-10T02:24:35.306Z",
       "memo": "마지막 날 간식"
     },
     {
@@ -814,11 +814,12 @@
       "category1": "W",
       "category2": "간식",
       "amount": 1500,
-      "date": "2026-04-09T16:00:00.000Z",
-      "createdAt": "2026-04-09T16:10:00.000Z",
+      "date": "2026-04-08T16:00:00.000Z",
+      "createdAt": "2026-04-10T01:59:55.749Z",
       "memo": "오늘의 젤리"
     },
     {
+      "id": "biYd1kKgI34",
       "childId": "gildong",
       "parentId": "momdad",
       "type": "E",
@@ -826,25 +827,25 @@
       "category2": "간식",
       "category3": null,
       "amount": 5000,
-      "date": "2026-04-09T06:01:26.378Z",
-      "createdAt": "2026-04-09T06:01:26.378Z",
-      "memo": "탕후루",
-      "id": "biYd1kKgI34"
+      "date": "2026-04-09T06:01:00.000Z",
+      "createdAt": "2026-04-10T03:54:29.414Z",
+      "memo": "탕후루"
     },
     {
+      "id": "hrV5Xqt9e_g",
       "childId": "kongsun",
       "parentId": "momdad",
       "type": "E",
       "category1": "W",
       "category2": "간식",
       "category3": null,
-      "amount": 1000,
-      "date": "2026-04-09T06:03:08.775Z",
-      "createdAt": "2026-04-09T06:03:08.775Z",
-      "memo": "달고나",
-      "id": "hrV5Xqt9e_g"
+      "amount": 2000,
+      "date": "2026-04-09T06:03:00.000Z",
+      "createdAt": "2026-04-10T02:29:18.501Z",
+      "memo": "달고나"
     },
     {
+      "id": "pAZrkahTLRU",
       "childId": "kongsun",
       "parentId": "momdad",
       "type": "E",
@@ -852,10 +853,9 @@
       "category2": "장난감",
       "category3": null,
       "amount": 10000,
-      "date": "2026-04-09T08:13:43.746Z",
-      "createdAt": "2026-04-09T08:13:43.746Z",
-      "memo": "레고",
-      "id": "pAZrkahTLRU"
+      "date": "2026-04-09T08:13:00.000Z",
+      "createdAt": "2026-04-10T03:54:37.493Z",
+      "memo": "레고"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

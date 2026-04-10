@@ -23,8 +23,9 @@
 </template>
 
 <script setup>
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 const router = useRouter();
+const route = useRoute();
 
 const props = defineProps(['item']);
 
@@ -35,7 +36,17 @@ const formatDate = (dateString) => {
 
 const editTrans = (id) => {
   console.log('clicked');
-  router.push({ name: 'EditTransaction', params: { tid: id } });
+  // url에 따라 분기
+
+  const path = route.fullPath;
+  const segments = path.split('/');
+  const userType = segments[1]; // 'parent' 또는 'child' 추출
+
+  if (userType === 'parent') {
+    router.push({ name: 'EditTransactionParent', params: { tid: id } });
+  } else if (userType === 'child') {
+    router.push({ name: 'EditTransactionChild', params: { tid: id } });
+  }
 };
 </script>
 

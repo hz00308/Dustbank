@@ -34,6 +34,10 @@ export const useTransactionStore = defineStore('transaction', () => {
     }
   };
 
+  const fetchedTransactions = computed(() => {
+    return fetchTransactions();
+  });
+
   const fetchTransactions = async (childId) => {
     try {
       const response = await axios.get(
@@ -74,7 +78,7 @@ export const useTransactionStore = defineStore('transaction', () => {
           balance: updatedBalance,
         });
         states.child = { ...child, balance: updatedBalance };
-        await fetchTransactions();
+        await fetchTransactions(childId);
         alert('거래 내역을 성공적으로 수정했습니다.');
         return true;
       } else {
@@ -108,6 +112,7 @@ export const useTransactionStore = defineStore('transaction', () => {
           balance: updatedBalance,
         });
         alert('거래 내역을 성공적으로 삭제했습니다.');
+        await fetchTransactions(childId);
         return true;
       } else {
         alert('거래 내역 삭제에 실패했습니다.');
@@ -280,6 +285,7 @@ export const useTransactionStore = defineStore('transaction', () => {
     fetchChild,
     fetchTransaction,
     fetchTransactions,
+    fetchedTransactions,
     createExpenditure,
     resetData,
     createIncome,
