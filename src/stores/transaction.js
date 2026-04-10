@@ -203,7 +203,7 @@ export const useTransactionStore = defineStore('transaction', () => {
   };
 
   const resetData = () => {
-    states.child = null;
+    states.child = {};
     states.transactions = [];
   };
 
