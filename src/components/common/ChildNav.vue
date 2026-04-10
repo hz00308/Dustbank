@@ -1,27 +1,50 @@
 <template>
   <header class="header">
-    <div class="logo">티끌저금통</div>
+    <router-link
+      :to="{ name: 'Family', params: { id: 'momdad' } }"
+      class="logo"
+    >
+      티끌저금통
+    </router-link>
 
     <nav class="nav">
-      <router-link :to="{ name: 'Home' }">Home</router-link>
-      <router-link :to="{ name: 'ChildDashboard', params: { id: 1 } }"
+      <router-link :to="{ name: 'Family', params: { id: 'momdad' } }"
+        >Home</router-link
+      >
+      <router-link :to="{ name: 'ChildDashboard', params: { id: childId } }"
         >Dashboard</router-link
       >
-      <router-link :to="{ name: 'ChildTransactions', params: { id: 1 } }"
+      <router-link :to="{ name: 'ChildTransactions', params: { id: childId } }"
         >Transaction</router-link
       >
-      <router-link :to="{ name: 'AddExpenditure', params: { id: 1 } }"
+      <router-link :to="{ name: 'AddExpenditure', params: { id: childId } }"
         >Expenditure</router-link
       >
     </nav>
 
     <div class="logout">
-      <button class="logout-btn">⎋</button>
+      <img
+        src="@/assets/images/logout.png"
+        class="logout-btn"
+        @click="logout"
+      />
     </div>
   </header>
 </template>
 
-<script setup></script>
+<script setup>
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
+import { useRouter } from 'vue-router';
+
+const route = useRoute();
+const childId = computed(() => String(route.params.id ?? 'gildong'));
+
+const router = useRouter();
+const logout = () => {
+  router.push('/');
+};
+</script>
 
 <style scoped>
 .header {
@@ -34,11 +57,14 @@
   background: white;
   border-bottom: 1px solid #e5e7eb;
   width: 100%;
+  z-index: 10;
 }
 
 .logo {
   font-size: 22px;
   font-weight: 700;
+  text-decoration: none;
+  color: #2563eb;
 }
 
 .nav {
@@ -58,12 +84,19 @@
   padding-bottom: 4px;
 }
 
-.logout-btn {
+.logout {
   border: 1px solid #d1d5db;
   background: white;
   border-radius: 50%;
   width: 36px;
   height: 36px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logout-btn {
+  width: 20px;
 }
 </style>

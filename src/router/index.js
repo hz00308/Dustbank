@@ -9,13 +9,13 @@ import MyChildTransactions from '@/pages/parent/MyChildTransactions.vue';
 import ParentDashboard from '@/pages/parent/ParentDashboard.vue';
 import Family from '@/pages/Family.vue';
 import Home from '@/pages/Home.vue';
-import EditTransaction from '@/pages/EditTransaction.vue';
+import EditTransactionChild from '@/pages/child/EditTransactionChild.vue';
+import EditTransactionParent from '@/pages/parent/EditTransactionParent.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     { path: '/', name: 'Home', component: Home },
-    { path: '/:id', name: 'Family', component: Family },
     { path: '/add-child', name: 'AddChild', component: AddChild },
     {
       path: '/parent',
@@ -36,6 +36,13 @@ const router = createRouter({
       path: '/parent/children/:id/transactions',
       name: 'MyChildTransactions',
       component: MyChildTransactions,
+      children: [
+        {
+          path: ':tid/edit',
+          name: 'EditTransactionParent',
+          component: EditTransactionParent,
+        },
+      ],
     },
     { path: '/child/:id', name: 'ChildDashboard', component: ChildDashboard },
     {
@@ -47,12 +54,15 @@ const router = createRouter({
       path: '/child/:id/transactions',
       name: 'ChildTransactions',
       component: ChildTransactions,
+      children: [
+        {
+          path: ':tid/edit',
+          name: 'EditTransactionChild',
+          component: EditTransactionChild,
+        },
+      ],
     },
-    {
-      path: '/transaction/:id/edit',
-      name: 'EditTransaction',
-      component: EditTransaction,
-    },
+    { path: '/:id', name: 'Family', component: Family },
   ],
 });
 

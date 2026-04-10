@@ -4,7 +4,6 @@
     <div id="name">{{ nickname }}</div>
     <div id="balance">{{ balance }} 원</div>
     <div id="btn-group">
-      <!-- 아직 router 수정 중이라 to 속성 없음 -->
       <router-link :to="{ name: 'AddIncome', params: { id } }" class="rlink"
         ><div class="btn1">용돈 주기</div></router-link
       >
@@ -42,6 +41,7 @@ const getIconPath = (iconId) => {
   align-items: center;
   gap: 16px;
   padding: 16px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
 }
 img {
   width: 150px;

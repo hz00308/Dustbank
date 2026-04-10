@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="container">
     <ParentNav />
     <div id="dashboard">
       <div>
         <h1>
           안녕하세요,
           <span class="blue"
-            >{{ childListStore.states.parentNickname }} 님</span
+            >{{ userStore.states.parentList[0].nickname }} 님</span
           >
         </h1>
         <div class="gray">티끌저금통과 함께 자녀 용돈을 손쉽게 관리하세요.</div>
@@ -22,16 +22,21 @@
 import ChildList from '@/components/user/ChildList.vue';
 import ParentNav from '@/components/common/ParentNav.vue';
 import Footer from '@/components/common/Footer.vue';
-import { useChildListStore } from '@/stores/child';
+import { useUserStore } from '@/stores/user';
 
-const childListStore = useChildListStore();
-childListStore.fetchParentNickname();
+const userStore = useUserStore();
+userStore.fetchUserList();
 </script>
 
 <style scoped>
-#dashboard {
+.container {
   background-color: #f7f9fb;
-  padding: 4em;
+}
+#dashboard {
+  overflow-x: auto;
+  white-space: nowrap;
+  background-color: #f7f9fb;
+  padding: 4em 8em;
   display: flex;
   flex-direction: column;
   gap: 50px;

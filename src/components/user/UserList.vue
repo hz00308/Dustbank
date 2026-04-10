@@ -11,7 +11,7 @@
       :child="child"
     />
     <button class="addChild" @click="addChild">
-      <img src="@/assets/images/plus.png" alt="" />
+      <img src="@/assets/images/plus.png" />
     </button>
   </ul>
 </template>
@@ -20,17 +20,21 @@
 import UserChildItem from './UserChildItem.vue';
 import UserParentItem from './UserParentItem.vue';
 import { useUserStore } from '@/stores/user';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const userStore = useUserStore();
 
 userStore.fetchUserList();
-console.log('**');
-console.log(userStore.states);
+// console.log('**');
+// console.log(userStore.states);
 
+const route = useRoute();
 const router = useRouter();
 const addChild = () => {
-  router.push({ name: 'AddChild' });
+  router.push({
+    name: 'AddChild',
+    query: { parentId: route.params.id ?? 'momdad' },
+  });
 };
 </script>
 
@@ -47,6 +51,7 @@ const addChild = () => {
   border-radius: 50%;
   border-style: dashed;
   border-color: rgb(201, 201, 201);
+  cursor: pointer;
 }
 .addChild > img {
   width: 30px;
