@@ -4,7 +4,7 @@
     <!-- <div class="header"></div> -->
     <div class="contents">
       <div class="titleGroup">
-        <p class="maintitle">Welcome,<span>Family</span>.</p>
+        <p class="maintitle">Welcome, <span>Family</span></p>
         <p class="subtitle">
           아이와 함께 가꾸는 우리 가족의 경제지도,<br />
           작은 저축이 큰 꿈이 되는 과정을 한 곳에서 경험하세요.
