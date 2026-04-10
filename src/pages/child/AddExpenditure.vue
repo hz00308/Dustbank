@@ -146,7 +146,7 @@ const categories = [
   { name: '간식', icon: '🍪', color: 'yellow' },
   { name: '장난감', icon: '🧸', color: 'beige' },
   { name: '취미', icon: '🎨', color: 'sky' },
-  { name: '학용품', icon: '✏️', color: 'green' },
+  { name: '준비물', icon: '✏️', color: 'green' },
   { name: '기타', icon: '✨', color: 'gray' },
 ];
 
@@ -157,7 +157,7 @@ const transactionStore = useTransactionStore();
 const quickAmounts = [100, 1000, 2000, 5000, 10000];
 const currentAmount = ref(0);
 const directInput = ref('0');
-const selectedCategory = ref('장난감');
+const selectedCategory = ref('식사');
 const selectedNeedType = ref('need');
 const memo = ref('');
 const statusMessage = ref('');
