@@ -170,13 +170,13 @@
 </template>
 
 <script setup>
-import { onMounted, reactive } from 'vue';
+import { reactive } from 'vue';
 import { useTransactionStore } from '@/stores/transaction';
 import { useRoute, useRouter } from 'vue-router';
 
 const route = useRoute();
 const router = useRouter();
-const transactionId = route.params.id;
+const transactionId = route.params.tid;
 const transactionStore = useTransactionStore();
 const emit = defineEmits(['close']);
 
