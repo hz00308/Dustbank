@@ -27,7 +27,7 @@ const props = defineProps(['item']);
 
 const formatDate = (dateString) => {
   const date = new Date(dateString);
-  return date.toLocaleDateString('ko-KR');
+  return date.toLocaleDateString('ko-KR', { hour: '2-digit' }); // 시간까지 표시하려면 { hour: '2-digit' } 옵션이 필요함.
 };
 </script>
 
