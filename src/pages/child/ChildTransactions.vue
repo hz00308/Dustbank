@@ -80,6 +80,10 @@ onMounted(() => {
 onUnmounted(() => {
   transactionStore.resetData();
 });
+
+const fetchedTransactions = computed(() => {
+  transactionStore.fetchedTransactions();
+});
 </script>
 
 <style scoped>

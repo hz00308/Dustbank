@@ -19,42 +19,7 @@
       </div>
 
       <!-- v-if로 카테고리 처리 -->
-      <div class="income-category" v-if="transactionData.type === 'I'">
-        <div class="category-title">카테고리</div>
-        <div class="category">
-          <button
-            :class="{ active: transactionData.category3 === '정기용돈' }"
-            @click="transactionData.category3 = '정기용돈'"
-          >
-            💵 정기용돈
-          </button>
-
-          <button
-            :class="{ active: transactionData.category3 === '보너스' }"
-            @click="transactionData.category3 = '보너스'"
-          >
-            🎁 보너스
-          </button>
-
-          <button
-            :class="{ active: transactionData.category3 === '세뱃돈' }"
-            @click="transactionData.category3 = '세뱃돈'"
-          >
-            💰 세뱃돈
-          </button>
-          <button
-            :class="{ active: transactionData.category3 === '기타' }"
-            @click="transactionData.category3 = '기타'"
-          >
-            ✨ 기타
-          </button>
-        </div>
-      </div>
-
-      <div
-        class="expenditure-category"
-        v-else-if="transactionData.type === 'E'"
-      >
+      <div class="expenditure-category">
         <div class="category-title">카테고리</div>
 
         <div class="category">
@@ -86,8 +51,8 @@
           </button>
 
           <button
-            :class="{ active: transactionData.category2 === '학용품' }"
-            @click="transactionData.category2 = '학용품'"
+            :class="{ active: transactionData.category2 === '준비물' }"
+            @click="transactionData.category2 = '준비물'"
           >
             ✏️ 학용품
           </button>
@@ -179,7 +144,6 @@ const router = useRouter();
 const transactionId = route.params.tid;
 const transactionStore = useTransactionStore();
 const emit = defineEmits(['close']);
-
 const transactionData = reactive({
   id: '',
   childId: '',
