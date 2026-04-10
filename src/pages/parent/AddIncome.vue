@@ -106,7 +106,7 @@
 import ParentNav from '@/components/common/ParentNav.vue';
 import { useTransactionStore } from '@/stores/transaction';
 import { useRoute } from 'vue-router';
-import {onMounted, reactive} from 'vue';
+import {reactive} from 'vue';
 
 const getIconPath = (iconId) => {
   return new URL(`../../assets/icons/icon${iconId}.png`, import.meta.url).href;
