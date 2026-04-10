@@ -843,19 +843,6 @@
       "createdAt": "2026-04-09T06:03:08.775Z",
       "memo": "달고나",
       "id": "hrV5Xqt9e_g"
-    },
-    {
-      "childId": "kongsun",
-      "parentId": "momdad",
-      "type": "E",
-      "category1": "N",
-      "category2": "장난감",
-      "category3": null,
-      "amount": 10000,
-      "date": "2026-04-09T08:13:43.746Z",
-      "createdAt": "2026-04-09T08:13:43.746Z",
-      "memo": "레고",
-      "id": "pAZrkahTLRU"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

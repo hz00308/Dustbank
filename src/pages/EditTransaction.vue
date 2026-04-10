@@ -19,7 +19,42 @@
       </div>
 
       <!-- v-if로 카테고리 처리 -->
-      <div class="expenditure-category">
+      <div class="income-category" v-if="transactionData.type === 'I'">
+        <div class="category-title">카테고리</div>
+        <div class="category">
+          <button
+            :class="{ active: transactionData.category3 === '정기용돈' }"
+            @click="transactionData.category3 = '정기용돈'"
+          >
+            💵 정기용돈
+          </button>
+
+          <button
+            :class="{ active: transactionData.category3 === '보너스' }"
+            @click="transactionData.category3 = '보너스'"
+          >
+            🎁 보너스
+          </button>
+
+          <button
+            :class="{ active: transactionData.category3 === '세뱃돈' }"
+            @click="transactionData.category3 = '세뱃돈'"
+          >
+            💰 세뱃돈
+          </button>
+          <button
+            :class="{ active: transactionData.category3 === '기타' }"
+            @click="transactionData.category3 = '기타'"
+          >
+            ✨ 기타
+          </button>
+        </div>
+      </div>
+
+      <div
+        class="expenditure-category"
+        v-else-if="transactionData.type === 'E'"
+      >
         <div class="category-title">카테고리</div>
 
         <div class="category">
@@ -135,7 +170,7 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue';
+import { onMounted, reactive, watch } from 'vue';
 import { useTransactionStore } from '@/stores/transaction';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -207,7 +242,6 @@ const initData = async () => {
   dateData.hour = hour;
   dateData.minute = minute;
 };
-
 initData();
 
 const closeModal = () => {

@@ -9,8 +9,7 @@ import MyChildTransactions from '@/pages/parent/MyChildTransactions.vue';
 import ParentDashboard from '@/pages/parent/ParentDashboard.vue';
 import Family from '@/pages/Family.vue';
 import Home from '@/pages/Home.vue';
-import EditTransactionChild from '@/pages/child/EditTransactionChild.vue';
-import EditTransactionParent from '@/pages/parent/EditTransactionParent.vue';
+import EditTransaction from '@/pages/EditTransaction.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -40,7 +39,7 @@ const router = createRouter({
         {
           path: ':tid/edit',
           name: 'EditTransactionParent',
-          component: EditTransactionParent,
+          component: EditTransaction,
         },
       ],
     },
@@ -58,7 +57,7 @@ const router = createRouter({
         {
           path: ':tid/edit',
           name: 'EditTransactionChild',
-          component: EditTransactionChild,
+          component: EditTransaction,
         },
       ],
     },
