@@ -20,13 +20,6 @@
       "nickname": "콩순이",
       "iconId": 3,
       "balance": 65200
-    },
-    {
-      "id": "미미-1775793855743",
-      "parentId": "momdad",
-      "nickname": "미미",
-      "iconId": 4,
-      "balance": 200000
     }
   ],
   "transactions": [
@@ -863,19 +856,6 @@
       "date": "2026-04-09T08:13:00.000Z",
       "createdAt": "2026-04-10T03:54:37.493Z",
       "memo": "레고"
-    },
-    {
-      "childId": "미미-1775793855743",
-      "parentId": "momdad",
-      "type": "I",
-      "category1": null,
-      "category2": null,
-      "category3": "정기용돈",
-      "amount": 200000,
-      "date": "2026-04-07T18:05:00.000Z",
-      "createdAt": "2026-04-10T04:06:47.359Z",
-      "memo": "good!!!!!",
-      "id": "6A0JdnJ"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
