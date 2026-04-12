@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://dustbank.onrender.com"
+      "destination": "https://dustbank.onrender.com/api/:path*"
     },
     {
       "source": "/(.*)",
