@@ -1,13 +1,16 @@
 <template>
   <header class="header">
-    <router-link :to="{ name: 'Family', params: { id: 'momdad' } }" class="logo"
-      >티끌저금통</router-link
+    <router-link
+      :to="{ name: 'Family', params: { id: parentId } }"
+      class="logo"
     >
+      티끌저금통
+    </router-link>
 
     <nav class="nav">
-      <router-link :to="{ name: 'Family', params: { id: 'momdad' } }"
-        >Home</router-link
-      >
+      <router-link :to="{ name: 'Family', params: { id: parentId } }">
+        Home
+      </router-link>
       <router-link :to="{ name: 'ParentDashboard' }">Dashboard</router-link>
     </nav>
 
@@ -23,8 +26,12 @@
 
 <script setup>
 import { useRouter } from 'vue-router';
+import { getParentId, clearParentId } from '@/composables/useParentCookie';
 const router = useRouter();
+const parentId = getParentId();
+
 const logout = () => {
+  clearParentId();
   router.push('/');
 };
 </script>

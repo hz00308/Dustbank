@@ -1,14 +1,14 @@
 <template>
   <header class="header">
     <router-link
-      :to="{ name: 'Family', params: { id: 'momdad' } }"
+      :to="{ name: 'Family', params: { id: parentId } }"
       class="logo"
     >
       티끌저금통
     </router-link>
 
     <nav class="nav">
-      <router-link :to="{ name: 'Family', params: { id: 'momdad' } }"
+      <router-link :to="{ name: 'Family', params: { id: parentId } }"
         >Home</router-link
       >
       <router-link :to="{ name: 'ChildDashboard', params: { id: childId } }"
@@ -34,14 +34,16 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useRoute } from 'vue-router';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+import { getParentId, clearParentId } from '@/composables/useParentCookie';
 
 const route = useRoute();
-const childId = computed(() => String(route.params.id ?? 'gildong'));
+const childId = computed(() => String(route.params.id ?? ''));
+const parentId = getParentId();
 
 const router = useRouter();
 const logout = () => {
+  clearParentId();
   router.push('/');
 };
 </script>

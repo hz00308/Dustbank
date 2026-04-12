@@ -3,7 +3,15 @@
     <div class="modal">
       <button class="close-btn" @click="closeModal">✕</button>
 
-      <h2 class="title">거래 정보 수정</h2>
+      <h2 class="title">거래 정보 {{ canEdit ? '수정' : '조회' }}</h2>
+
+      <div v-if="isLoaded && !canEdit" class="readonly-notice">
+        {{
+          userType === 'parent'
+            ? '부모님은 지출 내역을 수정할 수 없습니다.'
+            : '자녀는 수입 내역을 수정할 수 없습니다.'
+        }}
+      </div>
 
       <div class="amount-box">
         <span>금액</span>
@@ -14,6 +22,7 @@
             v-model.number="transactionData.amount"
             type="number"
             placeholder="0"
+            :disabled="!canEdit"
           />
         </div>
       </div>
@@ -24,6 +33,7 @@
         <div class="category">
           <button
             :class="{ active: transactionData.category3 === '정기용돈' }"
+            :disabled="!canEdit"
             @click="transactionData.category3 = '정기용돈'"
           >
             💵 정기용돈
@@ -31,6 +41,7 @@
 
           <button
             :class="{ active: transactionData.category3 === '보너스' }"
+            :disabled="!canEdit"
             @click="transactionData.category3 = '보너스'"
           >
             🎁 보너스
@@ -38,12 +49,14 @@
 
           <button
             :class="{ active: transactionData.category3 === '세뱃돈' }"
+            :disabled="!canEdit"
             @click="transactionData.category3 = '세뱃돈'"
           >
             💰 세뱃돈
           </button>
           <button
             :class="{ active: transactionData.category3 === '기타' }"
+            :disabled="!canEdit"
             @click="transactionData.category3 = '기타'"
           >
             ✨ 기타
@@ -60,6 +73,7 @@
         <div class="category">
           <button
             :class="{ active: transactionData.category2 === '식사' }"
+            :disabled="!canEdit"
             @click="transactionData.category2 = '식사'"
           >
             🍚 식사
@@ -67,6 +81,7 @@
 
           <button
             :class="{ active: transactionData.category2 === '간식' }"
+            :disabled="!canEdit"
             @click="transactionData.category2 = '간식'"
           >
             🍪 간식
@@ -74,12 +89,14 @@
 
           <button
             :class="{ active: transactionData.category2 === '장난감' }"
+            :disabled="!canEdit"
             @click="transactionData.category2 = '장난감'"
           >
             🧸 장난감
           </button>
           <button
             :class="{ active: transactionData.category2 === '취미' }"
+            :disabled="!canEdit"
             @click="transactionData.category2 = '취미'"
           >
             🎨 취미
@@ -87,12 +104,14 @@
 
           <button
             :class="{ active: transactionData.category2 === '준비물' }"
+            :disabled="!canEdit"
             @click="transactionData.category2 = '준비물'"
           >
             ✏️ 학용품
           </button>
           <button
             :class="{ active: transactionData.category2 === '기타' }"
+            :disabled="!canEdit"
             @click="transactionData.category2 = '기타'"
           >
             ✨ 기타
@@ -106,6 +125,7 @@
               type="button"
               class="toggle-button"
               :class="{ active: transactionData.category1 === 'N' }"
+              :disabled="!canEdit"
               @click="transactionData.category1 = 'N'"
             >
               필요해요
@@ -114,6 +134,7 @@
               type="button"
               class="toggle-button"
               :class="{ active: transactionData.category1 === 'W' }"
+              :disabled="!canEdit"
               @click="transactionData.category1 = 'W'"
             >
               원해요
@@ -125,7 +146,12 @@
       <div class="dateTime">
         <div class="date">
           <p>날짜</p>
-          <input class="date-input" v-model="dateData.date" type="date" />
+          <input
+            class="date-input"
+            v-model="dateData.date"
+            type="date"
+            :disabled="!canEdit"
+          />
         </div>
         <div class="inputGroup">
           <p>시간</p>
@@ -137,6 +163,7 @@
               max="24"
               placeholder="00"
               v-model="dateData.hour"
+              :disabled="!canEdit"
             />
             <span> : </span>
             <input
@@ -146,6 +173,7 @@
               max="59"
               placeholder="00"
               v-model="dateData.minute"
+              :disabled="!canEdit"
             />
           </div>
         </div>
@@ -157,20 +185,24 @@
           class="memo-box"
           v-model="transactionData.memo"
           placeholder="메모 입력"
+          :disabled="!canEdit"
         >
         </textarea>
       </div>
 
-      <div class="actions">
+      <div class="actions" v-if="canEdit">
         <button class="delete" @click="deleteTransaction">삭제</button>
         <button class="save" @click="editTransaction">수정 완료</button>
+      </div>
+      <div class="actions" v-else>
+        <button class="close-action" @click="closeModal">닫기</button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { onMounted, reactive, watch } from 'vue';
+import { onMounted, reactive, ref, computed, watch } from 'vue';
 import { useTransactionStore } from '@/stores/transaction';
 import { useRoute, useRouter } from 'vue-router';
 
@@ -178,6 +210,20 @@ const route = useRoute();
 const router = useRouter();
 const transactionId = route.params.tid;
 const transactionStore = useTransactionStore();
+
+// 라우트 경로에서 parent/child 판별
+const segments = route.fullPath.split('/');
+const userType = segments[1]; // 'parent' 또는 'child'
+
+// 거래 데이터 로딩 후 수정 가능 여부 판단
+const isLoaded = ref(false);
+const canEdit = computed(() => {
+  if (!isLoaded.value) return false;
+  // 부모는 수입(I)만, 자녀는 지출(E)만 수정 가능
+  if (userType === 'parent' && transactionData.type === 'I') return true;
+  if (userType === 'child' && transactionData.type === 'E') return true;
+  return false;
+});
 const emit = defineEmits(['close']);
 const transactionData = reactive({
   id: '',
@@ -241,6 +287,8 @@ const initData = async () => {
   dateData.date = date;
   dateData.hour = hour;
   dateData.minute = minute;
+
+  isLoaded.value = true;
 };
 initData();
 
@@ -487,5 +535,27 @@ button {
 
 .expenditure-type > .title {
   margin: 8px 0;
+}
+
+.readonly-notice {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.close-action {
+  width: 100%;
+  background: #e5e7eb;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 20px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
 }
 </style>

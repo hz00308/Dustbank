@@ -142,11 +142,11 @@ const transactionData = reactive({
   createdAt: "",
   memo: "",
 });
-
+const now = new Date();
 const dateData = reactive({
-  date: '',
-  hour: 0,
-  minute: 0
+  date: now.toISOString().split('T')[0],
+  hour: now.getHours(),
+  minute: now.getMinutes()
 });
 
 const initData = async () => {

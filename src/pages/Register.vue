@@ -1,31 +1,37 @@
 <template>
-  <main class="add-child-page">
+  <main class="register-page">
     <section class="card">
-      <div class="hero-icon" aria-hidden="true">
-        <img src="@/assets/images/plus2.png" alt="" />
-      </div>
-
       <div class="title-wrap">
-        <h1>새로운 자녀 등록하기</h1>
-        <p>우리 아이의 첫 경제 습관, 티끌 저금으로 시작해요!</p>
+        <h1>회원가입</h1>
+        <p>티끌저금통에 가입하고 자녀의 용돈을 관리해보세요!</p>
       </div>
 
-      <form class="form" @submit.prevent="submitChild">
-        <label class="field-label" for="childName">아이 이름</label>
+      <form class="form" @submit.prevent="submitRegister">
+        <label class="field-label" for="regId">아이디</label>
         <input
-          id="childName"
-          v-model.trim="childName"
+          id="regId"
+          v-model.trim="formId"
           type="text"
-          class="name-input"
+          class="text-input"
+          maxlength="20"
+          placeholder="사용할 아이디를 입력해주세요"
+        />
+
+        <label class="field-label" for="regNickname">닉네임</label>
+        <input
+          id="regNickname"
+          v-model.trim="formNickname"
+          type="text"
+          class="text-input"
           maxlength="12"
-          placeholder="아이의 이름을 입력해주세요"
+          placeholder="닉네임을 입력해주세요"
         />
 
         <div class="field-group">
           <span class="field-label">아바타 선택</span>
           <div class="icon-list">
             <button
-              v-for="icon in childIcons"
+              v-for="icon in parentIcons"
               :key="icon.id"
               type="button"
               class="icon-button"
@@ -42,7 +48,7 @@
         <div class="action-row">
           <button type="button" class="cancel-btn" @click="goBack">취소</button>
           <button type="submit" class="submit-btn" :disabled="isSubmitting">
-            {{ isSubmitting ? '등록 중...' : '등록하기' }}
+            {{ isSubmitting ? '가입 중...' : '가입하기' }}
           </button>
         </div>
       </form>
@@ -51,34 +57,35 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
-import { useRoute, useRouter } from 'vue-router';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { useUserStore } from '@/stores/user';
-import { getParentId } from '@/composables/useParentCookie';
 
 const router = useRouter();
-const route = useRoute();
 const userStore = useUserStore();
 
-const childName = ref('');
-const selectedIconId = ref(1);
+const formId = ref('');
+const formNickname = ref('');
+const selectedIconId = ref(5);
 const isSubmitting = ref(false);
 const errorMessage = ref('');
 
-const childIcons = [1, 2, 3, 4].map((id) => ({
+const parentIcons = [5, 6, 7, 8].map((id) => ({
   id,
-  src: new URL(`../../assets/icons/icon${id}.png`, import.meta.url).href,
+  src: new URL(`../assets/icons/icon${id}.png`, import.meta.url).href,
 }));
 
-const parentId = computed(() => String(route.query.parentId || getParentId()));
-
 const goBack = () => {
-  router.push({ name: 'Family', params: { id: parentId.value } });
+  router.push({ name: 'Home' });
 };
 
-const submitChild = async () => {
-  if (!childName.value) {
-    errorMessage.value = '아이 이름을 입력해주세요.';
+const submitRegister = async () => {
+  if (!formId.value) {
+    errorMessage.value = '아이디를 입력해주세요.';
+    return;
+  }
+  if (!formNickname.value) {
+    errorMessage.value = '닉네임을 입력해주세요.';
     return;
   }
 
@@ -86,15 +93,22 @@ const submitChild = async () => {
   isSubmitting.value = true;
 
   try {
-    await userStore.createChild({
-      nickname: childName.value,
+    const existing = await userStore.fetchParent(formId.value);
+    if (existing) {
+      errorMessage.value = '이미 존재하는 아이디입니다.';
+      return;
+    }
+
+    await userStore.createParent({
+      id: formId.value,
+      nickname: formNickname.value,
       iconId: selectedIconId.value,
-      parentId: parentId.value,
     });
 
-    router.push({ name: 'Family', params: { id: parentId.value } });
+    alert('회원가입이 완료되었습니다! 로그인해주세요.');
+    router.push({ name: 'Home' });
   } catch (error) {
-    errorMessage.value = error.message || '자녀 등록 중 문제가 발생했습니다.';
+    errorMessage.value = error.message || '회원가입 중 문제가 발생했습니다.';
   } finally {
     isSubmitting.value = false;
   }
@@ -102,7 +116,7 @@ const submitChild = async () => {
 </script>
 
 <style scoped>
-.add-child-page {
+.register-page {
   min-height: 100vh;
   padding: 40px 20px;
   display: flex;
@@ -117,21 +131,6 @@ const submitChild = async () => {
   border-radius: 36px;
   background-color: rgba(255, 255, 255, 0.96);
   box-shadow: 0 24px 50px rgba(101, 123, 151, 0.18);
-}
-
-.hero-icon {
-  width: 58px;
-  height: 58px;
-  margin: 0 auto 20px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: linear-gradient(180deg, #edf5ff 0%, #d7e8ff 100%);
-}
-
-.hero-icon img {
-  width: 28px;
-  height: 28px;
 }
 
 .title-wrap {
@@ -156,7 +155,7 @@ const submitChild = async () => {
 .form {
   display: flex;
   flex-direction: column;
-  gap: 22px;
+  gap: 18px;
 }
 
 .field-group {
@@ -171,7 +170,7 @@ const submitChild = async () => {
   font-weight: 700;
 }
 
-.name-input {
+.text-input {
   width: 100%;
   border: none;
   border-radius: 999px;
@@ -182,11 +181,11 @@ const submitChild = async () => {
   outline: none;
 }
 
-.name-input::placeholder {
+.text-input::placeholder {
   color: #b0b8c5;
 }
 
-.name-input:focus {
+.text-input:focus {
   box-shadow: 0 0 0 3px rgba(85, 148, 255, 0.18);
 }
 
@@ -206,8 +205,8 @@ const submitChild = async () => {
 }
 
 .icon-button img {
-  width: 62%;
-  height: 62%;
+  width: 70%;
+  height: 80%;
   object-fit: contain;
 }
 
@@ -260,7 +259,7 @@ const submitChild = async () => {
 }
 
 @media (max-width: 640px) {
-  .add-child-page {
+  .register-page {
     padding: 20px 14px;
   }
 

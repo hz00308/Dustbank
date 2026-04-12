@@ -2,6 +2,9 @@
   <main class="home-page">
     <header class="brand-header">
       <h1 class="brand-title">티끌저금통</h1>
+      <router-link :to="{ name: 'Register' }" class="registerLink">
+        회원가입
+      </router-link>
     </header>
 
     <section class="hero-section">
@@ -59,15 +62,26 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { setParentId } from '@/composables/useParentCookie';
+import { useUserStore } from '@/stores/user';
 
 const router = useRouter();
+const userStore = useUserStore();
 const parentId = ref('');
 
-function goNext() {
+async function goNext() {
   if (!parentId.value) {
     alert('학부모 ID를 입력해주세요.');
     return;
   }
+
+  const parent = await userStore.fetchParent(parentId.value);
+  if (!parent) {
+    alert('존재하지 않는 학부모 ID입니다. 회원가입을 먼저 해주세요.');
+    return;
+  }
+
+  setParentId(parentId.value);
 
   router.push({
     name: 'Family',
@@ -86,6 +100,9 @@ function goNext() {
 
 .brand-header {
   margin-bottom: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .brand-title {
@@ -93,6 +110,24 @@ function goNext() {
   font-size: 1.9rem;
   font-weight: 800;
   letter-spacing: -0.04em;
+}
+
+.registerLink {
+  color: #4d72f8;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: 2px solid #4d72f8;
+  border-radius: 999px;
+  transition:
+    background-color 0.2s,
+    color 0.2s;
+}
+
+.registerLink:hover {
+  background-color: #4d72f8;
+  color: #ffffff;
 }
 
 .hero-section {

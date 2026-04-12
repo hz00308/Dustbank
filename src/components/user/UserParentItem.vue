@@ -52,7 +52,6 @@ li {
 .imgBox > img {
   width: 152px;
   height: 152px;
-  background-color: rgb(203, 236, 255);
   border-radius: 50%;
   margin: 0;
 }

@@ -23,9 +23,10 @@
 <script setup>
 import ChildItem from './ChildItem.vue';
 import { useUserStore } from '@/stores/user';
+import { getParentId } from '@/composables/useParentCookie';
 
 const userStore = useUserStore();
-userStore.fetchUserList();
+userStore.fetchUserList(getParentId());
 </script>
 
 <style scoped>

@@ -13,20 +13,30 @@ export const useUserStore = defineStore('user', () => {
   const BASEChild = '/api/children';
   const BASETransaction = '/api/transactions';
 
-  const fetchUserList = async () => {
+  const fetchUserList = async (parentId) => {
     try {
-      const responseParent = await axios.get(BASEParent);
-      const responseChild = await axios.get(BASEChild);
-      if (
-        (responseParent.status === 200 && responseChild.status === 200) ||
-        (responseParent.status === 304 && responseChild.status === 304)
-      ) {
+      // const responseParent = await axios.get(BASEParent);
+      // const responseChild = await axios.get(BASEChild);
+      let responseParent;
+      let responseChild;
+
+      if (parentId) {
+        responseParent = await axios.get(`${BASEParent}/${parentId}`);
+        responseChild = await axios.get(`${BASEChild}?parentId=${parentId}`);
+      } else {
+        responseParent = await axios.get(BASEParent);
+        responseChild = await axios.get(BASEChild);
+      }
+
+      if (responseParent.status === 200 || responseParent.status === 304) {
         // console.log('Parent------');
         // console.log(responseParent);
         // console.log('Children-----');
         // console.log(responseChild);
+        states.parentList = parentId
+          ? [responseParent.data]
+          : responseParent.data;
         states.childList = responseChild.data;
-        states.parentList = responseParent.data;
       } else {
         console.error('Error: User 데이터 조회 실패');
       }
@@ -90,8 +100,46 @@ export const useUserStore = defineStore('user', () => {
     states.childList = states.childList.filter((child) => child.id !== childId);
   };
 
-  console.log('states-----');
-  console.log(states);
+  // console.log('states-----');
+  // console.log(states);
   // return { states, fetchUserList, createChild, deleteChild, protectedChildIds };
-  return { states, fetchUserList, createChild, deleteChild };
+
+  const createParent = async ({ id, nickname, iconId }) => {
+    const trimmedId = id?.trim();
+    const trimmedNickname = nickname?.trim();
+
+    if (!trimmedId) {
+      throw new Error('ID를 입력해주세요.');
+    }
+    if (!trimmedNickname) {
+      throw new Error('닉네임을 입력해주세요.');
+    }
+
+    const newParent = { id: trimmedId, nickname: trimmedNickname, iconId };
+    const response = await axios.post(BASEParent, newParent);
+
+    if (response.status !== 201) {
+      throw new Error('회원가입에 실패했습니다.');
+    }
+
+    return response.data;
+  };
+
+  const fetchParent = async (parentId) => {
+    try {
+      const response = await axios.get(`${BASEParent}/${parentId}`);
+      return response.data;
+    } catch {
+      return null;
+    }
+  };
+
+  return {
+    states,
+    fetchUserList,
+    createChild,
+    deleteChild,
+    createParent,
+    fetchParent,
+  };
 });

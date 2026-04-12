@@ -5,9 +5,9 @@
       <div>
         <h1>
           안녕하세요,
-          <span class="blue"
-            >{{ userStore.states.parentList[0].nickname }} 님</span
-          >
+          <span class="blue">
+            {{ userStore.states.parentList[0]?.nickname }} 님
+          </span>
         </h1>
         <div class="gray">티끌저금통과 함께 자녀 용돈을 손쉽게 관리하세요.</div>
       </div>
@@ -20,11 +20,11 @@
 <script setup>
 import ChildList from '@/components/user/ChildList.vue';
 import ParentNav from '@/components/common/ParentNav.vue';
-import Footer from '@/components/common/Footer.vue';
 import { useUserStore } from '@/stores/user';
+import { getParentId } from '@/composables/useParentCookie';
 
 const userStore = useUserStore();
-userStore.fetchUserList();
+userStore.fetchUserList(getParentId());
 </script>
 
 <style scoped>

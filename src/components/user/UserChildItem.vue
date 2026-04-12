@@ -1,6 +1,7 @@
 <template>
   <li>
     <img
+      v-if="showDelete"
       src="@/assets/images/X.png"
       alt="X"
       type="button"
@@ -35,7 +36,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { useUserStore } from '@/stores/user';
 
 const userStore = useUserStore();
@@ -43,6 +44,7 @@ const isDeleting = ref(false);
 
 const props = defineProps({
   child: { Type: Object, required: true },
+  showDelete: { type: Boolean, default: false },
 });
 
 // const canDelete = computed(
@@ -102,8 +104,8 @@ li {
   top: 20px;
   right: 5px;
   z-index: 2;
-  width: 34px;
-  height: 34px;
+  width: 20px;
+  height: 20px;
   border: none;
   border-radius: 50%;
   background-color: #ffffff;

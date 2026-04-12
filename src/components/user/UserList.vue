@@ -9,6 +9,7 @@
       v-for="child in userStore.states.childList"
       :key="child.id"
       :child="child"
+      :show-delete="editMode === 'delete'"
     />
     <button class="addChild" @click="addChild">
       <img src="@/assets/images/plus.png" />
@@ -21,19 +22,28 @@ import UserChildItem from './UserChildItem.vue';
 import UserParentItem from './UserParentItem.vue';
 import { useUserStore } from '@/stores/user';
 import { useRoute, useRouter } from 'vue-router';
+import { getParentId } from '@/composables/useParentCookie';
+
+defineProps({
+  editMode: { type: String, default: 'default' },
+});
 
 const userStore = useUserStore();
 
-userStore.fetchUserList();
+// userStore.fetchUserList();
 // console.log('**');
 // console.log(userStore.states);
 
 const route = useRoute();
 const router = useRouter();
+const parentId = route.params.id ?? getParentId();
+userStore.fetchUserList(parentId);
+
 const addChild = () => {
   router.push({
     name: 'AddChild',
-    query: { parentId: route.params.id ?? 'momdad' },
+    // query: { parentId: route.params.id ?? 'momdad' },
+    query: { parentId },
   });
 };
 </script>
