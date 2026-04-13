@@ -12,7 +12,7 @@
       "parentId": "momdad",
       "nickname": "길동이",
       "iconId": 2,
-      "balance": 78400
+      "balance": 83400
     },
     {
       "id": "kongsun",
@@ -20,6 +20,13 @@
       "nickname": "콩순이",
       "iconId": 3,
       "balance": 66200
+    },
+    {
+      "id": "쥬쥬-1776044869467",
+      "parentId": "momdad",
+      "nickname": "쥬쥬",
+      "iconId": 4,
+      "balance": 2000
     }
   ],
   "transactions": [
@@ -843,6 +850,162 @@
       "createdAt": "2026-04-09T06:03:08.775Z",
       "memo": "달고나",
       "id": "hrV5Xqt9e_g"
+    },
+    {
+      "id": "63",
+      "childId": "gildong",
+      "parentId": "momdad",
+      "type": "I",
+      "category1": null,
+      "category2": null,
+      "category3": "정기용돈",
+      "amount": 20000,
+      "date": "2026-04-13T00:00:00.000Z",
+      "createdAt": "2026-04-13T00:01:00.000Z",
+      "memo": "이번 주 정기 용돈 시작!"
+    },
+    {
+      "id": "64",
+      "childId": "kongsun",
+      "parentId": "momdad",
+      "type": "I",
+      "category1": null,
+      "category2": null,
+      "category3": "정기용돈",
+      "amount": 20000,
+      "date": "2026-04-13T00:00:00.000Z",
+      "createdAt": "2026-04-13T00:02:00.000Z",
+      "memo": "월요일 용돈 받았다~"
+    },
+    {
+      "id": "65",
+      "childId": "gildong",
+      "parentId": "momdad",
+      "type": "E",
+      "category1": "W",
+      "category2": "간식",
+      "category3": null,
+      "amount": 1500,
+      "date": "2026-04-13T00:20:00.000Z",
+      "createdAt": "2026-04-13T00:25:00.000Z",
+      "memo": "등굣길 시원한 초코우유"
+    },
+    {
+      "id": "66",
+      "childId": "kongsun",
+      "parentId": "momdad",
+      "type": "E",
+      "category1": "N",
+      "category2": "준비물",
+      "category3": null,
+      "amount": 3500,
+      "date": "2026-04-13T00:30:00.000Z",
+      "createdAt": "2026-04-13T00:35:00.000Z",
+      "memo": "1교시 미술 준비물 찰흙이랑 판"
+    },
+    {
+      "id": "67",
+      "childId": "gildong",
+      "parentId": "momdad",
+      "type": "E",
+      "category1": "W",
+      "category2": "취미",
+      "category3": null,
+      "amount": 2000,
+      "date": "2026-04-13T00:50:00.000Z",
+      "createdAt": "2026-04-13T00:55:00.000Z",
+      "memo": "쉬는 시간 매점 뽑기 게임"
+    },
+    {
+      "id": "68",
+      "childId": "kongsun",
+      "parentId": "momdad",
+      "type": "I",
+      "category1": null,
+      "category2": null,
+      "category3": "보너스",
+      "amount": 3000,
+      "date": "2026-04-13T00:15:00.000Z",
+      "createdAt": "2026-04-13T00:18:00.000Z",
+      "memo": "아침 일찍 일어나서 분리수거 도와드림"
+    },
+    {
+      "id": "70",
+      "childId": "kongsun",
+      "parentId": "momdad",
+      "type": "E",
+      "category1": "W",
+      "category2": "장난감",
+      "category3": null,
+      "amount": 1000,
+      "date": "2026-04-13T01:15:00.000Z",
+      "createdAt": "2026-04-13T01:20:00.000Z",
+      "memo": "문방구 랜덤 스티커"
+    },
+    {
+      "childId": "gildong",
+      "parentId": "momdad",
+      "type": "E",
+      "category1": "N",
+      "category2": "기타",
+      "category3": null,
+      "amount": 5000,
+      "date": "2026-04-13T01:46:55.600Z",
+      "createdAt": "2026-04-13T01:46:55.600Z",
+      "memo": "교통카드 충전",
+      "id": "iUmWJtH"
+    },
+    {
+      "childId": "쥬쥬-1776044869467",
+      "parentId": "momdad",
+      "type": "I",
+      "category1": null,
+      "category2": null,
+      "category3": "정기용돈",
+      "amount": 10000,
+      "date": "2026-04-12T23:00:00.000Z",
+      "createdAt": "2026-04-13T01:48:23.403Z",
+      "memo": "쥬쥬의 첫 용돈",
+      "id": "Zov5p-Y"
+    },
+    {
+      "childId": "쥬쥬-1776044869467",
+      "parentId": "momdad",
+      "type": "E",
+      "category1": "W",
+      "category2": "간식",
+      "category3": null,
+      "amount": 1000,
+      "date": "2026-04-13T01:49:24.499Z",
+      "createdAt": "2026-04-13T01:49:24.499Z",
+      "memo": "달고나 ㅎㅎㅎ",
+      "id": "StRbR6R"
+    },
+    {
+      "childId": "쥬쥬-1776044869467",
+      "parentId": "momdad",
+      "type": "E",
+      "category1": "W",
+      "category2": "취미",
+      "category3": null,
+      "amount": 5000,
+      "date": "2026-04-13T01:49:50.792Z",
+      "createdAt": "2026-04-13T01:49:50.792Z",
+      "memo": "로블록스 현질",
+      "id": "1J1THz7"
+    },
+    {
+      "childId": "쥬쥬-1776044869467",
+      "parentId": "momdad",
+      "type": "E",
+      "category1": "N",
+      "category2": "준비물",
+      "category3": null,
+      "amount": 2000,
+      "date": "2026-04-13T01:50:15.732Z",
+      "createdAt": "2026-04-13T01:50:15.732Z",
+      "memo": "싸인펜 잃어버려서 새로 삼 ㅠㅠ",
+      "id": "jiBAvvr"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
